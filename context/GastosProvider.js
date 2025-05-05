@@ -1,6 +1,5 @@
-// contexts/GastosContext.js
 import React, { createContext, useState, useEffect } from "react";
-import AsyncStore from "../Store/AsyncStore";
+import AsyncStore from "./Store/AsyncStore";
 
 export const GastosContext = createContext();
 

@@ -1,29 +1,94 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
+import PieChart from "react-native-pie-chart";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
 
-  const dataFilter = categorias.filter((categoria) => categoria.ativo === true);
+  const categoriasAtivas = categorias.filter((categoria) => categoria.ativo);
+
+  const receita = () => {
+    let categoria = categorias.find(
+      (categoria) => categoria.categoria === "Receita"
+    );
+
+    return categoria ? categoria.valorTotal : 0;
+  };
+
+  const despesa = () => {
+    let soma = categorias
+      .filter(
+        (categoria) => categoria.categoria !== "Receita" && categoria.ativo
+      )
+      .reduce((acc, curr) => acc + curr.valorTotal, 0);
+
+    return soma ? soma : 0;
+  };
+
+  let balancoMensal = () => {
+    let subtracao = receita() - despesa();
+
+    return subtracao ? subtracao : 0;
+  };
+
+  const widthAndHeight = 250;
+
+  const addSeries = (categorias) => {
+    const seriesData = categorias
+      .filter((categoria) => categoria.valorTotal > 0)
+      .map((categoria) => ({
+        value: categoria.valorTotal,
+        color: categoria.cor,
+      }));
+
+    return seriesData;
+  };
+  const series = addSeries(categoriasAtivas);
+
+  if (categoriasAtivas.length === 0) {
+    return;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Categorias</Text>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Balanço Mensal</Text>
+        <Text style={styles.title}>R${balancoMensal()}</Text>
 
-      <FlatList
-        data={dataFilter}
-        keyExtractor={(item) => item.categoria}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={[styles.colorIndicator, { backgroundColor: item.cor }]} />
-            <View style={styles.textContainer}>
-              <Text style={styles.categoria}>{item.categoria}</Text>
-              <Text style={styles.valorTotal}>Total: R$ {item.valorTotal.toFixed(2)}</Text>
-              <Text style={styles.ativo}>{item.ativo ? "Ativa" : "Inativa"}</Text>
+        <Text style={styles.title}>Receitas</Text>
+        <Text style={styles.title}>R${receita()}</Text>
+
+        <Text style={styles.title}>Despesas</Text>
+        <Text style={styles.title}>R${despesa()}</Text>
+
+        <Text style={styles.title}>Categorias</Text>
+        <FlatList
+          data={categoriasAtivas}
+          keyExtractor={(item) => item.categoria}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <View
+                style={[styles.colorIndicator, { backgroundColor: item.cor }]}
+              />
+              <View style={styles.textContainer}>
+                <Text style={styles.categoria}>{item.categoria}</Text>
+                <Text style={styles.valorTotal}>
+                  Total: R$ {item.valorTotal.toFixed(2)}
+                </Text>
+                <Text style={styles.ativo}>
+                  {item.ativo ? "Ativa" : "Inativa"}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
+
+        <View>
+          <Text style={styles.title}>Doughnut</Text>
+          <PieChart widthAndHeight={200} cover={0.55} series={series} />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -70,4 +135,3 @@ const styles = StyleSheet.create({
     color: "#888",
   },
 });
-

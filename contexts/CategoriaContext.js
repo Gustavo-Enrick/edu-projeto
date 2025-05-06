@@ -17,7 +17,7 @@ export const CategoriaProvider = ({ children }) => {
     { categoria: "Vestuário", cor: "#4B1212", valorTotal: 0, ativo: true },
   ];
 
-  // Carrega do AsyncStorage ao iniciar
+  //Carrega do AsyncStorage ao iniciar
   useEffect(() => {
     const carregarCategorias = async () => {
       const json = await AsyncStorage.getItem("@categorias");
@@ -40,7 +40,7 @@ export const CategoriaProvider = ({ children }) => {
     carregarCategorias();
   }, []);
 
-  // Salva no AsyncStorage toda vez que as categorias mudarem
+  //Salva no AsyncStorage toda vez que as categorias mudarem
   useEffect(() => {
     const salvarCategorias = async () => {
       try {
@@ -56,9 +56,13 @@ export const CategoriaProvider = ({ children }) => {
 
   const atualizarCategoria = (nome, novosDados) => {
     setCategorias((prev) =>
-      prev.map((cat) =>
-        cat.categoria === nome ? { ...cat, ...novosDados } : cat
-      )
+      prev.map((cat) => {
+        if (cat.categoria === "Receita") {
+          return { ...cat, ativo: true };
+        }
+
+        return cat.categoria === nome ? { ...cat, ...novosDados } : cat;
+      })
     );
   };
 

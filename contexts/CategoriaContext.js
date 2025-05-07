@@ -7,11 +7,11 @@ export const CategoriaProvider = ({ children }) => {
   const [categorias, setCategorias] = useState([]);
 
   const categoriasPadrao = [
+    { categoria: "Receita", cor: "#7ED321", valorTotal: 2000, ativo: true },
     { categoria: "Assinatura", cor: "#4A90E2", valorTotal: 80, ativo: true },
     { categoria: "Investimento", cor: "#F93535", valorTotal: 220, ativo: true },
     { categoria: "Lazer", cor: "#BD10E0", valorTotal: 120, ativo: true },
     { categoria: "Mercado", cor: "#50E3C2", valorTotal: 600, ativo: true },
-    { categoria: "Receita", cor: "#7ED321", valorTotal: 2000, ativo: true },
     { categoria: "Saúde", cor: "#AAA130", valorTotal: 100, ativo: true },
     { categoria: "Transporte", cor: "#7300D9", valorTotal: 260, ativo: true },
     { categoria: "Vestuário", cor: "#4B1212", valorTotal: 400, ativo: true },
@@ -23,7 +23,7 @@ export const CategoriaProvider = ({ children }) => {
       const json = await AsyncStorage.getItem("@categorias");
 
       try {
-        if (json) {
+        if (JSON.parse(json).categorias === null) {
           setCategorias(JSON.parse(json).categorias);
         } else {
           setCategorias(categoriasPadrao);

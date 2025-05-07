@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, StyleSheet, FlatList, StatusBar } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
+import IconImage from "../../components/iconImage/IconImage";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
@@ -12,7 +13,6 @@ export default function HomeScreen() {
     let categoria = categorias.find(
       (categoria) => categoria.categoria === "Receita"
     );
-
     return categoria ? categoria.valorTotal : 0;
   };
 
@@ -22,7 +22,6 @@ export default function HomeScreen() {
         (categoria) => categoria.categoria !== "Receita" && categoria.ativo
       )
       .reduce((acc, curr) => acc + curr.valorTotal, 0);
-
     return soma ? soma : 0;
   };
 
@@ -32,63 +31,67 @@ export default function HomeScreen() {
     return subtracao ? subtracao : 0;
   };
 
-  const widthAndHeight = 250;
-
   const addSeries = (categorias) => {
-    const seriesData = categorias
+    return categorias
       .filter((categoria) => categoria.valorTotal > 0)
       .map((categoria) => ({
         value: categoria.valorTotal,
         color: categoria.cor,
       }));
-
-    return seriesData;
   };
+
   const series = addSeries(categoriasAtivas);
 
-  if (categoriasAtivas.length === 0) {
-    return;
-  }
+  if (categoriasAtivas.length === 0) return null;
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container}>
-        <Text style={styles.title}>Balanço Mensal</Text>
-        <Text style={styles.title}>R${balancoMensal()}</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Balanço Mensal</Text>
+        <Text style={styles.balancoMensal}>
+          R$ {balancoMensal().toFixed(2)}
+        </Text>
 
-        <Text style={styles.title}>Receitas</Text>
-        <Text style={styles.title}>R${receita()}</Text>
-
-        <Text style={styles.title}>Despesas</Text>
-        <Text style={styles.title}>R${despesa()}</Text>
-
-        <Text style={styles.title}>Categorias</Text>
-        <FlatList
-          data={categoriasAtivas}
-          keyExtractor={(item) => item.categoria}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <View
-                style={[styles.colorIndicator, { backgroundColor: item.cor }]}
-              />
-              <View style={styles.textContainer}>
-                <Text style={styles.categoria}>{item.categoria}</Text>
-                <Text style={styles.valorTotal}>
-                  Total: R$ {item.valorTotal.toFixed(2)}
-                </Text>
-                <Text style={styles.ativo}>
-                  {item.ativo ? "Ativa" : "Inativa"}
-                </Text>
-              </View>
-            </View>
-          )}
-        />
-
-        <View>
-          <Text style={styles.title}>Doughnut</Text>
-          <PieChart widthAndHeight={200} cover={0.55} series={series} />
+        <View style={styles.resumoContainer}>
+          <View style={styles.cardResumo}>
+            <IconImage source="seta_cima"></IconImage>
+            <Text style={styles.textoLabelResumo}>Receitas</Text>
+            <Text style={styles.textoReceita}>R$ {receita().toFixed(2)}</Text>
+          </View>       
+          <View style={styles.cardResumo}>
+            <Text style={styles.textoLabelResumo}>Despesas</Text>
+            <Text style={styles.textoDespesa}>R$ {despesa().toFixed(2)}</Text>
+          </View>
         </View>
-      </ScrollView>
+      </View>
+
+      <Text style={styles.tituloSecao}>Valor por Categoria</Text>
+      <View style={styles.graficoContainer}>
+        <PieChart widthAndHeight={120} cover={0.55} series={series} />
+        <View style={styles.legenda}>
+          <FlatList
+            data={categoriasAtivas}
+            keyExtractor={(item) => item.categoria}
+            renderItem={({ item }) => (
+              <View style={styles.itemLegenda}>
+                <View style={styles.colunaCor}>
+                  <View
+                    style={[styles.corLegenda, { backgroundColor: item.cor }]}
+                  />
+                </View>
+                <View style={styles.colunaCategoria}>
+                  <Text style={styles.textoCategoria}>{item.categoria}</Text>
+                </View>
+                <View style={styles.colunaValor}>
+                  <Text style={styles.textoValor}>
+                    R$ {item.valorTotal.toFixed(2)}
+                  </Text>
+                </View>
+              </View>
+            )}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -96,42 +99,103 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#2A2929",
+    paddingHorizontal: 16,
   },
-  title: {
-    fontSize: 24,
+  header: {
+    backgroundColor: "#FFB056",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    padding: 24,
+    alignItems: "center",
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: "#3C3C3C",
+    marginBottom: 8,
     fontWeight: "bold",
-    marginBottom: 16,
-    textAlign: "center",
   },
-  card: {
+  balancoMensal: {
+    fontSize: 32,
+    color: "#000",
+    fontWeight: "bold",
+  },
+  resumoContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 16,
+  },
+  cardResumo: {
+    alignItems: "start",
+    marginHorizontal: 40,
+  },
+  textoReceita: {
+    color: "#3BA844",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  textoDespesa: {
+    color: "#D6291B",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  textoLabelResumo: {
+    color: "#3C3C3C",
+    fontWeight: "bold",
+    marginTop: 4,
+  },
+  tituloSecao: {
+    fontSize: 20,
+    color: "#E9E9E9",
+    fontWeight: "bold",
+    marginTop: 50,
+    marginBottom: 12,
+    marginHorizontal: 10,
+  },
+  graficoContainer: {
+    backgroundColor: "#FFB056",
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 7,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 12,
-    marginBottom: 10,
-    borderRadius: 8,
-    elevation: 2,
+    marginHorizontal: 10,
   },
-  colorIndicator: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    marginRight: 12,
-  },
-  textContainer: {
+  legenda: {
     flex: 1,
   },
-  categoria: {
-    fontSize: 18,
+  itemLegenda: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  colunaCor: {
+    alignItems: "center",
+    width: 20,
+    marginHorizontal: 5,
+  },
+  corLegenda: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 8,
+  },
+  colunaCategoria: {
+    flex: 1,
+  },
+  textoCategoria: {
+    color: "#3C3C3C",
     fontWeight: "bold",
   },
-  valorTotal: {
-    color: "#555",
+  colunaValor: {
+    width: 100,
+    alignItems: "flex-start",
+    marginHorizontal: 1,
   },
-  ativo: {
-    fontStyle: "italic",
-    color: "#888",
+  textoValor: {
+    color: "#3C3C3C",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });

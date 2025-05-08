@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, FlatList, StatusBar } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
 import IconImage from "../../components/iconImage/IconImage";
+import MonetaryText from "../../components/monetaryText/MonetaryText";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
@@ -48,19 +49,35 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Balanço Mensal</Text>
-        <Text style={styles.balancoMensal}>
-          R$ {balancoMensal().toFixed(2)}
-        </Text>
+        <MonetaryText
+          style={styles.balancoMensal}
+          resize={false}
+          value={balancoMensal()}
+        ></MonetaryText>
 
         <View style={styles.resumoContainer}>
-          <View style={styles.cardResumo}>
+          <View style={styles.iconResumo}>
             <IconImage source="seta_cima"></IconImage>
+          </View>
+          <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
-            <Text style={styles.textoReceita}>R$ {receita().toFixed(2)}</Text>
-          </View>       
+            <MonetaryText
+              style={styles.textoReceita}
+              value={receita()}
+            ></MonetaryText>
+          </View>
+
+          <View style={styles.spaceResumo}></View>
+
+          <View style={styles.iconResumo}>
+            <IconImage source="seta_baixo"></IconImage>
+          </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
-            <Text style={styles.textoDespesa}>R$ {despesa().toFixed(2)}</Text>
+            <MonetaryText
+              style={styles.textoDespesa}
+              value={despesa()}
+            ></MonetaryText>
           </View>
         </View>
       </View>
@@ -83,9 +100,10 @@ export default function HomeScreen() {
                   <Text style={styles.textoCategoria}>{item.categoria}</Text>
                 </View>
                 <View style={styles.colunaValor}>
-                  <Text style={styles.textoValor}>
-                    R$ {item.valorTotal.toFixed(2)}
-                  </Text>
+                  <MonetaryText
+                    style={styles.textoValor}
+                    value={item.valorTotal}
+                  ></MonetaryText>
                 </View>
               </View>
             )}
@@ -100,13 +118,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#2A2929",
-    paddingHorizontal: 16,
   },
   header: {
     backgroundColor: "#FFB056",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    padding: 24,
+    paddingTop: 50,
+    paddingBottom: 50,
     alignItems: "center",
   },
   headerTitle: {
@@ -122,12 +140,13 @@ const styles = StyleSheet.create({
   },
   resumoContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 16,
+    marginTop: 55,
   },
   cardResumo: {
-    alignItems: "start",
-    marginHorizontal: 40,
+    alignItems: "flex-start",
+  },
+  spaceResumo: {
+    marginHorizontal: 10,
   },
   textoReceita: {
     color: "#3BA844",
@@ -141,6 +160,7 @@ const styles = StyleSheet.create({
   },
   textoLabelResumo: {
     color: "#3C3C3C",
+    fontSize: 15,
     fontWeight: "bold",
     marginTop: 4,
   },
@@ -148,38 +168,36 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#E9E9E9",
     fontWeight: "bold",
+    marginHorizontal: 10,
     marginTop: 50,
     marginBottom: 12,
-    marginHorizontal: 10,
   },
   graficoContainer: {
     backgroundColor: "#FFB056",
     borderRadius: 16,
+    marginHorizontal: 10,
     paddingVertical: 14,
-    paddingHorizontal: 7,
+    paddingHorizontal: 5,
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 10,
   },
   legenda: {
     flex: 1,
   },
   itemLegenda: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
   },
   colunaCor: {
     alignItems: "center",
     width: 20,
-    marginHorizontal: 5,
+    marginLeft: 5,
   },
   corLegenda: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    marginRight: 8,
   },
   colunaCategoria: {
     flex: 1,
@@ -189,9 +207,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   colunaValor: {
-    width: 100,
+    width: 115,
     alignItems: "flex-start",
-    marginHorizontal: 1,
   },
   textoValor: {
     color: "#3C3C3C",

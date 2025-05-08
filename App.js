@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./Screens/home/HomeScreen";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
+import IconSvg from "./components/iconSvg/IconSvg";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,10 +16,14 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
-            tabBarShowLabel: false,
+            // tabBarShowLabel: false,
             tabBarStyle: {
-              backgroundColor: "#242424",
+              backgroundColor: "#353434",
               borderTopWidth: 0,
+              height: 70,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              position: "absolute",
             },
           }}
         >
@@ -27,13 +32,22 @@ export default function App() {
             component={HomeScreen}
             options={{
               tabBarIcon: ({ focused }) => (
-                <Image
-                  source={require("./assets/icons/icon-home.png")}
-                  style={[
-                    styles.icon,
-                    { tintColor: focused ? "#FFB056" : "#FFFFFF" },
-                  ]}
-                />
+                <View style={styles.tabBarIcon}>
+                  <IconSvg
+                    name="house"
+                    color={focused ? "#FFB056" : "#FFFFFF"}
+                  />
+                </View>
+              ),
+              tabBarLabel: ({ focused }) => (
+                <Text
+                  style={{
+                    color: focused ? "#FFB056" : "#FFFFFF",
+                    fontSize: 12,
+                  }}
+                >
+                  Home
+                </Text>
               ),
             }}
           />
@@ -43,8 +57,10 @@ export default function App() {
   );
 }
 const styles = StyleSheet.create({
-  icon: {
-    width: 35,
-    height: 35,
+  tabBarIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
   },
 });

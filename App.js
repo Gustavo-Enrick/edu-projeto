@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,14 +15,10 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
-            // tabBarShowLabel: false,
             tabBarStyle: {
               backgroundColor: "#353434",
               borderTopWidth: 0,
               height: 70,
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-              position: "absolute",
             },
           }}
         >
@@ -35,14 +30,14 @@ export default function App() {
                 <View style={styles.tabBarIcon}>
                   <IconSvg
                     name="house"
-                    color={focused ? "#FFB056" : "#FFFFFF"}
+                    color={focused ? "#FFB056" : "#6e6e6e"}
                   />
                 </View>
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
                   style={{
-                    color: focused ? "#FFB056" : "#FFFFFF",
+                    color: focused ? "#FFB056" : "#6e6e6e",
                     fontSize: 12,
                   }}
                 >

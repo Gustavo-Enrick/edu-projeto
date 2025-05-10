@@ -23,7 +23,7 @@ export const CategoriaProvider = ({ children }) => {
       const json = await AsyncStorage.getItem("@categorias");
 
       try {
-        if (JSON.parse(json).categorias === null) {
+        if (JSON.parse(json).categorias.length > 0) {
           setCategorias(JSON.parse(json).categorias);
         } else {
           setCategorias(categoriasPadrao);
@@ -37,10 +37,10 @@ export const CategoriaProvider = ({ children }) => {
       }
 
       // setCategorias(categoriasPadrao);
-      //     await AsyncStorage.setItem(
-      //       "@categorias",
-      //       JSON.stringify({ categorias: categoriasPadrao })
-      //     );
+      // await AsyncStorage.setItem(
+      //   "@categorias",
+      //   JSON.stringify({ categorias: categoriasPadrao })
+      // );
     };
 
     carregarCategorias();

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
-import IconImage from "../../components/iconImage/IconImage";
 import MonetaryText from "../../components/monetaryText/MonetaryText";
+import IconSvg from "../../components/iconSvg/IconSvg"
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
@@ -28,7 +28,6 @@ export default function HomeScreen() {
 
   let balancoMensal = () => {
     let subtracao = receita() - despesa();
-
     return subtracao ? subtracao : 0;
   };
 
@@ -46,38 +45,43 @@ export default function HomeScreen() {
   if (categoriasAtivas.length === 0) return null;
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 40 }}
+    >
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Balanço Mensal</Text>
         <MonetaryText
           style={styles.balancoMensal}
           resize={false}
           value={balancoMensal()}
-        ></MonetaryText>
+        />
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconImage source="seta_cima"></IconImage>
+            <IconSvg
+                    name="circle-arrow-up"
+                    color="#3BA844"
+                    size={50}
+                  />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
-            <MonetaryText
-              style={styles.textoReceita}
-              value={receita()}
-            ></MonetaryText>
+            <MonetaryText style={styles.textoReceita} value={receita()} />
           </View>
 
-          <View style={styles.spaceResumo}></View>
+          <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconImage source="seta_baixo"></IconImage>
+            <IconSvg
+                    name="circle-arrow-down"
+                    color="#D6291B"
+                    size={50}
+                  />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
-            <MonetaryText
-              style={styles.textoDespesa}
-              value={despesa()}
-            ></MonetaryText>
+            <MonetaryText style={styles.textoDespesa} value={despesa()} />
           </View>
         </View>
       </View>
@@ -86,31 +90,27 @@ export default function HomeScreen() {
       <View style={styles.graficoContainer}>
         <PieChart widthAndHeight={120} cover={0.55} series={series} />
         <View style={styles.legenda}>
-          <FlatList
-            data={categoriasAtivas}
-            keyExtractor={(item) => item.categoria}
-            renderItem={({ item }) => (
-              <View style={styles.itemLegenda}>
-                <View style={styles.colunaCor}>
-                  <View
-                    style={[styles.corLegenda, { backgroundColor: item.cor }]}
-                  />
-                </View>
-                <View style={styles.colunaCategoria}>
-                  <Text style={styles.textoCategoria}>{item.categoria}</Text>
-                </View>
-                <View style={styles.colunaValor}>
-                  <MonetaryText
-                    style={styles.textoValor}
-                    value={item.valorTotal}
-                  ></MonetaryText>
-                </View>
+          {categoriasAtivas.map((item) => (
+            <View style={styles.itemLegenda} key={item.categoria}>
+              <View style={styles.colunaCor}>
+                <View
+                  style={[styles.corLegenda, { backgroundColor: item.cor }]}
+                />
               </View>
-            )}
-          />
+              <View style={styles.colunaCategoria}>
+                <Text style={styles.textoCategoria}>{item.categoria}</Text>
+              </View>
+              <View style={styles.colunaValor}>
+                <MonetaryText
+                  style={styles.textoValor}
+                  value={item.valorTotal}
+                />
+              </View>
+            </View>
+          ))}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -144,6 +144,9 @@ const styles = StyleSheet.create({
   },
   cardResumo: {
     alignItems: "flex-start",
+  },
+  iconResumo:{
+    paddingRight: 5,
   },
   spaceResumo: {
     marginHorizontal: 10,
@@ -179,7 +182,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 5,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   legenda: {
     flex: 1,

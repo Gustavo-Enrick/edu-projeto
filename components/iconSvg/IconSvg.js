@@ -1,9 +1,8 @@
-import React from "react";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 } from "react-native-vector-icons";
 import Styles from "./Style";
 
-function IconSvg({ name, size, color = "black" }) {
-  return <Icon name={name} size={Styles.iconSvg.size} color={color} />;
+function IconSvg({ name, size = Styles.iconSvg.size, color = "black" }) {
+  return <FontAwesome6 name={name} size={size} color={color} />;
 }
 
 export default IconSvg;

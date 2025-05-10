@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
 import MonetaryText from "../../components/monetaryText/MonetaryText";
-import IconSvg from "../../components/iconSvg/IconSvg"
+import IconSvg from "../../components/iconSvg/IconSvg";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
@@ -59,11 +59,7 @@ export default function HomeScreen() {
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconSvg
-                    name="circle-arrow-up"
-                    color="#3BA844"
-                    size={50}
-                  />
+            <IconSvg name="circle-arrow-up" color="#3BA844" size={50} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
@@ -73,11 +69,7 @@ export default function HomeScreen() {
           <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconSvg
-                    name="circle-arrow-down"
-                    color="#D6291B"
-                    size={50}
-                  />
+            <IconSvg name="circle-arrow-down" color="#D6291B" size={50} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
@@ -131,12 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#3C3C3C",
     marginBottom: 8,
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
   },
   balancoMensal: {
     fontSize: 32,
     color: "#000",
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
   },
   resumoContainer: {
     flexDirection: "row",
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
   cardResumo: {
     alignItems: "flex-start",
   },
-  iconResumo:{
+  iconResumo: {
     paddingRight: 5,
   },
   spaceResumo: {
@@ -154,17 +146,17 @@ const styles = StyleSheet.create({
   textoReceita: {
     color: "#3BA844",
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
   },
   textoDespesa: {
     color: "#D6291B",
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
   },
   textoLabelResumo: {
     color: "#3C3C3C",
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
     marginTop: 4,
   },
   tituloSecao: {
@@ -207,7 +199,7 @@ const styles = StyleSheet.create({
   },
   textoCategoria: {
     color: "#3C3C3C",
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
   },
   colunaValor: {
     width: 115,
@@ -215,7 +207,7 @@ const styles = StyleSheet.create({
   },
   textoValor: {
     color: "#3C3C3C",
-    fontWeight: "bold",
+    fontFamily: "AlbertSans-Bold",
     fontSize: 14,
   },
 });

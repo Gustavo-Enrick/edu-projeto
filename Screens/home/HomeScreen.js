@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   balancoMensal: {
     fontSize: 32,
-    color: "#000",
+    color: "#3C3C3C",
     fontFamily: "AlbertSans-Bold",
   },
   resumoContainer: {

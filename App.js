@@ -10,9 +10,9 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'AlbertSans-Regular': require('./assets/fonts/AlbertSans-Regular.ttf'),
-    'AlbertSans-Bold': require('./assets/fonts/AlbertSans-Bold.ttf'),
-    'AlbertSans-Italic': require('./assets/fonts/AlbertSans-Italic.ttf'),
+    "AlbertSans-Regular": require("./assets/fonts/AlbertSans-Regular.ttf"),
+    "AlbertSans-Bold": require("./assets/fonts/AlbertSans-Bold.ttf"),
+    "AlbertSans-Italic": require("./assets/fonts/AlbertSans-Italic.ttf"),
   });
 
   return (
@@ -43,12 +43,12 @@ export default function App() {
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
-                  style={{
+                  style={[{
                     color: focused ? "#FFB056" : "#6e6e6e",
                     fontFamily: "AlbertSans-Regular",
                     fontSize: 12,
                     paddingTop: 5,
-                  }}
+                  }, styles.tabBarIcon]}
                 >
                   Home
                 </Text>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   tabBarIcon: {
     justifyContent: "center",
     alignItems: "center",
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });

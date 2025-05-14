@@ -1,25 +1,12 @@
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./Screens/home/HomeScreen";
-import GuiaScreen from "./Screens/guia/GuiaScreen";
-import CategoriaScreen from "./Screens/categoria/CategoriaScreen";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
 import IconSvg from "./components/iconSvg/IconSvg";
 import { useFonts } from "expo-font";
-
+import CategoriaScreen from "./Screens/categoria/CategoriaScreen";
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
-
-function GuiaStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Guia" component={GuiaScreen} />
-      <Stack.Screen name="CategoriaScreen" component={CategoriaScreen} />
-    </Stack.Navigator>
-  );
-}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -56,14 +43,46 @@ export default function App() {
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
-                  style={[{
-                    color: focused ? "#FFB056" : "#6e6e6e",
-                    fontFamily: "AlbertSans-Regular",
-                    fontSize: 12,
-                    paddingTop: 5,
-                  }, styles.tabBarIcon]}
+                  style={[
+                    {
+                      color: focused ? "#FFB056" : "#6e6e6e",
+                      fontFamily: "AlbertSans-Regular",
+                      fontSize: 12,
+                      paddingTop: 5,
+                    },
+                    styles.tabBarIcon,
+                  ]}
                 >
                   Home
+                </Text>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Categorias"
+            component={CategoriaScreen}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <View style={styles.tabBarIcon}>
+                  <IconSvg
+                    name="list"
+                    color={focused ? "#FFB056" : "#6e6e6e"}
+                  />
+                </View>
+              ),
+              tabBarLabel: ({ focused }) => (
+                <Text
+                  style={[
+                    {
+                      color: focused ? "#FFB056" : "#6e6e6e",
+                      fontFamily: "AlbertSans-Regular",
+                      fontSize: 12,
+                      paddingTop: 5,
+                    },
+                    styles.tabBarIcon,
+                  ]}
+                >
+                  Categorias
                 </Text>
               ),
             }}

@@ -1,85 +1,69 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import { ElementoContext } from "../../contexts/ElementoProvider";
-import { TextInput } from "react-native-gesture-handler";
+import React, { useContext } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { CategoriaContext } from "../../contexts/CategoriaContext";
 
-const CategoriaScreen = () => {
-  const route = useRoute();
-  const { nomeCategoria } = route.params;
-  const { elementosPorCategoria } = useContext(ElementoContext);
-  const [despesas, setDespesas] = useState([]);
+export default function CategoriasScreen() {
+  const navigation = useNavigation();
+  const { categorias } = useContext(CategoriaContext);
 
-  console.log(nomeCategoria);
+  const categoriasAtivas = categorias.filter((cat) => cat.ativo);
 
-  useEffect(() => {
-    if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {
-      setDespesas(elementosPorCategoria[nomeCategoria]);
-    }
-  }, [nomeCategoria, elementosPorCategoria]);
+  console.log(categorias);
+  console.log(categoriasAtivas);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
-
-      {despesas.length > 0 ? (
-        <FlatList
-          data={despesas}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.despesaContainer}>
-              <Text style={styles.despesaNome}>{item.nome}</Text>
-              <Text style={styles.despesaValor}>R$ {item.valor}</Text>
-              <Text style={styles.despesaData}>
-                Data de Expiração: {item.dataExpiracao}
-              </Text>
-            </View>
-          )}
-        />
-      ) : (
-        <Text style={styles.semDespesas}>
-          Não há despesas associadas a essa categoria.
-        </Text>
-      )}
+      <Text style={styles.titulo}>Categorias</Text>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        {categoriasAtivas.map((cat) => (
+          <View
+            key={cat.categoria}
+            style={[styles.card, { backgroundColor: cat.cor }]}
+          >
+            <Text style={styles.nome}>{cat.categoria}</Text>
+            <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
+          </View>
+        ))}
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("SelecaoCategorias")}
+      >
+        <Text style={styles.mais}>+</Text>
+      </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  container: { flex: 1, backgroundColor: "#222" },
   titulo: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+    backgroundColor: "#FFB14D",
     textAlign: "center",
-  },
-  despesaContainer: {
-    marginBottom: 15,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-  },
-  despesaNome: {
-    fontSize: 18,
+    fontSize: 22,
+    padding: 12,
     fontWeight: "bold",
   },
-  despesaValor: {
-    fontSize: 16,
-    color: "#4A90E2",
+  scroll: { padding: 16, gap: 16 },
+  card: { borderRadius: 10, padding: 20, alignItems: "center" },
+  nome: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  valor: { color: "#fff", fontSize: 20 },
+  botao: {
+    backgroundColor: "#FFA500",
+    borderRadius: 30,
+    width: 50,
+    height: 50,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20,
   },
-  despesaData: {
-    fontSize: 14,
-    color: "#555",
-  },
-  semDespesas: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#888",
-  },
+  mais: { fontSize: 28, color: "#000" },
 });
-
-export default CategoriaScreen;

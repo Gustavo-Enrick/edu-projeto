@@ -7,7 +7,7 @@ export const CategoriaProvider = ({ children }) => {
   const [categorias, setCategorias] = useState([]);
 
   const categoriasPadrao = [
-    { categoria: "Receita", cor: "#7ED321", valorTotal: 2000, ativo: true }, //Sempre ficará true
+    { categoria: "Receita", cor: "#7ED321", valorTotal: 2000, ativo: true },
     { categoria: "Assinatura", cor: "#4A90E2", valorTotal: 80, ativo: true },
     { categoria: "Investimento", cor: "#F93535", valorTotal: 220, ativo: true },
     { categoria: "Lazer", cor: "#BD10E0", valorTotal: 120, ativo: true },

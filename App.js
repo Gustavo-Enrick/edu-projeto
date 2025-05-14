@@ -1,12 +1,25 @@
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./Screens/home/HomeScreen";
+import GuiaScreen from "./Screens/guia/GuiaScreen";
+import CategoriaScreen from "./Screens/categoria/CategoriaScreen";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
 import IconSvg from "./components/iconSvg/IconSvg";
 import { useFonts } from "expo-font";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function GuiaStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Guia" component={GuiaScreen} />
+      <Stack.Screen name="CategoriaScreen" component={CategoriaScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({

@@ -21,15 +21,23 @@ export default function CategoriasScreen() {
       contentContainerStyle={{ paddingBottom: 40 }}
     >
       <Text style={styles.titulo}>Categorias</Text>
-      {categoriasAtivas.map((cat) => (
-        <View
-          key={cat.categoria}
-          style={[styles.card, { backgroundColor: cat.cor }]}
-        >
-          <Text style={styles.nome}>{cat.categoria}</Text>
-          <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
-        </View>
-      ))}
+      <ScrollView contentContainerStyle={styles.scroll}>
+        {categoriasAtivas.map((cat) => (
+          <TouchableOpacity
+            key={cat.categoria}
+            onPress={() =>
+              navigation.navigate("ListaCategoriaScreen", {
+                nomeCategoria: cat.categoria,
+              })
+            }
+          >
+            <View style={[styles.card, { backgroundColor: cat.cor }]}>
+              <Text style={styles.nome}>{cat.categoria}</Text>
+              <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       <TouchableOpacity
         style={styles.botao}
         onPress={() => navigation.navigate("SelecaoCategorias")}

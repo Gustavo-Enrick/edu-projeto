@@ -1,13 +1,15 @@
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { CategoriaProvider } from "./contexts/CategoriaContext";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import IconSvg from "./components/iconSvg/IconSvg";
 import { useFonts } from "expo-font";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoriaScreen from "./Screens/categoria/CategoriasScreen";
 import HomeScreen from "./Screens/home/HomeScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SelecaoCategoriasScreen from "./Screens/categoria/SelecaoCategoriasScreen";
+import IconSvg from "./components/iconSvg/IconSvg";
+import { CategoriaProvider } from "./contexts/CategoriaContext";
+import { ElementoProvider } from "./contexts/ElementoProvider";
+import ListaCategoriasScreen from "./Screens/categoria/ListaCategoriasScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -95,14 +97,17 @@ export default function App() {
   );
 
   return (
-    <CategoriaProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MainTabs" component={Tabs} />
-          <Stack.Screen name="SelecaoCategorias" component={SelecaoCategoriasScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </CategoriaProvider>
+    <ElementoProvider>
+      <CategoriaProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MainTabs" component={Tabs} />
+            <Stack.Screen name="SelecaoCategorias" component={SelecaoCategoriasScreen} />
+            <Stack.Screen name="ListaCategorias" component={ListaCategoriasScreen} />
+          </Stack.Navigator>
+        </NavigationContainer >
+      </CategoriaProvider >
+    </ElementoProvider>
   );
 }
 
@@ -112,5 +117,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 35,
     height: 35,
+  },
+  tabBarLabel: {
+    fontFamily: "AlbertSans-Regular",
+    fontSize: 12,
+    paddingTop: 5,
   },
 });

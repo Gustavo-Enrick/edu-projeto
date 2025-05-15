@@ -15,21 +15,24 @@ export default function CategoriasScreen() {
 
   const categoriasAtivas = categorias.filter((cat) => cat.ativo);
 
-  console.log(categorias);
-  console.log(categoriasAtivas);
-
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
       <ScrollView contentContainerStyle={styles.scroll}>
         {categoriasAtivas.map((cat) => (
-          <View
+          <TouchableOpacity
             key={cat.categoria}
-            style={[styles.card, { backgroundColor: cat.cor }]}
+            onPress={() =>
+              navigation.navigate("ListaCategoriaScreen", {
+                nomeCategoria: cat.categoria,
+              })
+            }
           >
-            <Text style={styles.nome}>{cat.categoria}</Text>
-            <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
-          </View>
+            <View style={[styles.card, { backgroundColor: cat.cor }]}>
+              <Text style={styles.nome}>{cat.categoria}</Text>
+              <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <TouchableOpacity

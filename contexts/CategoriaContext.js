@@ -11,13 +11,13 @@ export const CategoriaProvider = ({ children }) => {
     { categoria: "Assinatura", cor: "#4A90E2", valorTotal: 80, ativo: true },
     { categoria: "Investimento", cor: "#F93535", valorTotal: 220, ativo: true },
     { categoria: "Lazer", cor: "#BD10E0", valorTotal: 120, ativo: true },
-    { categoria: "Mercado", cor: "#50E3C2", valorTotal: 600, ativo: true },
-    { categoria: "Saúde", cor: "#AAA130", valorTotal: 100, ativo: true },
+    { categoria: "Mercado", cor: "#AAA130", valorTotal: 600, ativo: true },
+    { categoria: "Saúde", cor: "#50E3C2", valorTotal: 100, ativo: true },
     { categoria: "Transporte", cor: "#7300D9", valorTotal: 260, ativo: true },
     { categoria: "Vestuário", cor: "#4B1212", valorTotal: 400, ativo: true },
   ];
 
-  // Carrega do AsyncStorage ao iniciar
+  //Carrega do AsyncStorage ao iniciar
   useEffect(() => {
     const carregarCategorias = async () => {
       const json = await AsyncStorage.getItem("@categorias");
@@ -46,7 +46,7 @@ export const CategoriaProvider = ({ children }) => {
     carregarCategorias();
   }, []);
 
-  // Salva no AsyncStorage toda vez que as categorias mudarem
+  //Salva no AsyncStorage toda vez que as categorias mudarem
   useEffect(() => {
     const salvarCategorias = async () => {
       try {
@@ -62,9 +62,13 @@ export const CategoriaProvider = ({ children }) => {
 
   const atualizarCategoria = (nome, novosDados) => {
     setCategorias((prev) =>
-      prev.map((cat) =>
-        cat.categoria === nome ? { ...cat, ...novosDados } : cat
-      )
+      prev.map((cat) => {
+        if (cat.categoria === "Receita") {
+          return { ...cat, ativo: true };
+        }
+
+        return cat.categoria === nome ? { ...cat, ...novosDados } : cat;
+      })
     );
   };
 

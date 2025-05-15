@@ -1,12 +1,16 @@
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./Screens/home/HomeScreen";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import IconSvg from "./components/iconSvg/IconSvg";
 import { useFonts } from "expo-font";
-import CategoriaScreen from "./Screens/categoria/CategoriaScreen";
+import CategoriaScreen from "./Screens/categoria/CategoriasScreen";
+import HomeScreen from "./Screens/home/HomeScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SelecaoCategoriasScreen from "./Screens/categoria/SelecaoCategoriasScreen";
+
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,83 +19,93 @@ export default function App() {
     "AlbertSans-Italic": require("./assets/fonts/AlbertSans-Italic.ttf"),
   });
 
+  if (!fontsLoaded) return null;
+
+  const Tabs = () => (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "#353434",
+          borderTopWidth: 0,
+          height: 70,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabBarIcon}>
+              <IconSvg
+                name="house"
+                color={focused ? "#FFB056" : "#6e6e6e"}
+              />
+            </View>
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={[
+                {
+                  color: focused ? "#FFB056" : "#6e6e6e",
+                  fontFamily: "AlbertSans-Regular",
+                  fontSize: 12,
+                  paddingTop: 5,
+                },
+                styles.tabBarIcon,
+              ]}
+            >
+              Home
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Categorias"
+        component={CategoriaScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabBarIcon}>
+              <IconSvg
+                name="list"
+                color={focused ? "#FFB056" : "#6e6e6e"}
+              />
+            </View>
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={[
+                {
+                  color: focused ? "#FFB056" : "#6e6e6e",
+                  fontFamily: "AlbertSans-Regular",
+                  fontSize: 12,
+                  paddingTop: 5,
+                },
+                styles.tabBarIcon,
+              ]}
+            >
+              Categorias
+            </Text>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+
   return (
     <CategoriaProvider>
       <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-            tabBarStyle: {
-              backgroundColor: "#353434",
-              borderTopWidth: 0,
-              height: 70,
-            },
-          }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <View style={styles.tabBarIcon}>
-                  <IconSvg
-                    name="house"
-                    color={focused ? "#FFB056" : "#6e6e6e"}
-                  />
-                </View>
-              ),
-              tabBarLabel: ({ focused }) => (
-                <Text
-                  style={[
-                    {
-                      color: focused ? "#FFB056" : "#6e6e6e",
-                      fontFamily: "AlbertSans-Regular",
-                      fontSize: 12,
-                      paddingTop: 5,
-                    },
-                    styles.tabBarIcon,
-                  ]}
-                >
-                  Home
-                </Text>
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Categorias"
-            component={CategoriaScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <View style={styles.tabBarIcon}>
-                  <IconSvg
-                    name="list"
-                    color={focused ? "#FFB056" : "#6e6e6e"}
-                  />
-                </View>
-              ),
-              tabBarLabel: ({ focused }) => (
-                <Text
-                  style={[
-                    {
-                      color: focused ? "#FFB056" : "#6e6e6e",
-                      fontFamily: "AlbertSans-Regular",
-                      fontSize: 12,
-                      paddingTop: 5,
-                    },
-                    styles.tabBarIcon,
-                  ]}
-                >
-                  Categorias
-                </Text>
-              ),
-            }}
-          />
-        </Tab.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="MainTabs" component={Tabs} />
+          <Stack.Screen name="SelecaoCategorias" component={SelecaoCategoriasScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
     </CategoriaProvider>
   );
 }
+
 const styles = StyleSheet.create({
   tabBarIcon: {
     justifyContent: "center",

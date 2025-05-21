@@ -13,7 +13,7 @@ export default function CategoriasScreen() {
   const navigation = useNavigation();
   const { categorias } = useContext(CategoriaContext);
 
-  const categoriasAtivas = categorias.filter((cat) => cat.ativo);
+  const categoriasAtivas = categorias.filter((cat) => cat.ativo === true);
 
   console.log(categorias);
   console.log(categoriasAtivas);

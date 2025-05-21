@@ -10,6 +10,7 @@ export default ListaCategoriaScreen = () => {
   const [despesas, setDespesas] = useState([]);
 
   console.log(nomeCategoria);
+  console.log(elementosPorCategoria);
 
   useEffect(() => {
     if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {

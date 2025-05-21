@@ -15,21 +15,27 @@ export default function CategoriasScreen() {
 
   const categoriasAtivas = categorias.filter((cat) => cat.ativo === true);
 
-  console.log(categorias);
-  console.log(categoriasAtivas);
-
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 40 }}
+    >
       <Text style={styles.titulo}>Categorias</Text>
       <ScrollView contentContainerStyle={styles.scroll}>
         {categoriasAtivas.map((cat) => (
-          <View
+          <TouchableOpacity
             key={cat.categoria}
-            style={[styles.card, { backgroundColor: cat.cor }]}
+            onPress={() =>
+              navigation.navigate("ListaCategoriaScreen", {
+                nomeCategoria: cat.categoria,
+              })
+            }
           >
-            <Text style={styles.nome}>{cat.categoria}</Text>
-            <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
-          </View>
+            <View style={[styles.card, { backgroundColor: cat.cor }]}>
+              <Text style={styles.nome}>{cat.categoria}</Text>
+              <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <TouchableOpacity
@@ -38,21 +44,29 @@ export default function CategoriasScreen() {
       >
         <Text style={styles.mais}>+</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#222" },
-  titulo: {
-    backgroundColor: "#FFB14D",
-    textAlign: "center",
-    fontSize: 22,
-    padding: 12,
-    fontWeight: "bold",
+  container: {
+    flex: 1,
+    backgroundColor: "#2A2929",
   },
-  scroll: { padding: 16, gap: 16 },
-  card: { borderRadius: 10, padding: 20, alignItems: "center" },
+  titulo: {
+    fontSize: 32,
+    color: "#3C3C3C",
+    marginBottom: 8,
+    fontFamily: "AlbertSans-Bold",
+    fontWeight: "bold",
+    backgroundColor: "#FFB056",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingTop: 50,
+    paddingBottom: 50,
+    textAlign: "center",
+  },
+  card: { borderRadius: 10, padding: 30, alignItems: "center", margin: 15 },
   nome: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   valor: { color: "#fff", fontSize: 20 },
   botao: {
@@ -63,7 +77,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    margin: 20,
   },
   mais: { fontSize: 28, color: "#000" },
 });

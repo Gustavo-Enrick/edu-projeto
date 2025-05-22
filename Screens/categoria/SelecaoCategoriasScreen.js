@@ -1,7 +1,15 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
+import BotaoVoltar from "../../components/botao/BotaoVoltar";
+import BotaoSalvar from "../../components/botao/BotaoSalvar";
 
 export default function SelecaoCategoriasScreen() {
   const navigation = useNavigation();
@@ -12,33 +20,32 @@ export default function SelecaoCategoriasScreen() {
     atualizarCategoria(nome, { ativo: !categoria.ativo });
   };
 
-  const salvar = () => {
+  const handleSalvar = () => {
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-       <ScrollView contentContainerStyle={styles.scroll}>
-      <Text style={styles.titulo}>Seleção de Categorias</Text>
-      <View style={styles.lista}>
-        {categorias
-          .filter((cat) => cat.categoria !== "Receita")
-          .map((cat) => (
-            <TouchableOpacity
-              key={cat.categoria}
-              style={styles.item}
-              onPress={() => alternarAtivo(cat.categoria)}
-            >
-              <View
-                style={[styles.checkbox, cat.ativo && styles.checkboxMarcado]}
-              />
-              <Text style={styles.nome}>{cat.categoria}</Text>
-            </TouchableOpacity>
-          ))}
-      </View>
-      <TouchableOpacity style={styles.botaoSalvar} onPress={salvar}>
-        <Text style={styles.textoSalvar}>Salvar</Text>
-      </TouchableOpacity>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <Text style={styles.titulo}>Seleção de Categorias</Text>
+        <View style={styles.lista}>
+          {categorias
+            .filter((cat) => cat.categoria !== "Receita")
+            .map((cat) => (
+              <TouchableOpacity
+                key={cat.categoria}
+                style={styles.item}
+                onPress={() => alternarAtivo(cat.categoria)}
+              >
+                <View
+                  style={[styles.checkbox, cat.ativo && styles.checkboxMarcado]}
+                />
+                <Text style={styles.nome}>{cat.categoria}</Text>
+              </TouchableOpacity>
+            ))}
+        </View>
+        <BotaoSalvar onPress={handleSalvar}></BotaoSalvar>
+        <BotaoVoltar></BotaoVoltar>
       </ScrollView>
     </View>
   );
@@ -67,12 +74,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFA500",
   },
   nome: { color: "#fff", fontSize: 18 },
-  botaoSalvar: {
-    backgroundColor: "green",
-    margin: 20,
-    padding: 14,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  textoSalvar: { color: "#fff", fontSize: 16 },
 });

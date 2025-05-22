@@ -9,7 +9,8 @@ import SelecaoCategoriasScreen from "./Screens/categoria/SelecaoCategoriasScreen
 import IconSvg from "./components/iconSvg/IconSvg";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
 import { ElementoProvider } from "./contexts/ElementoProvider";
-import ListaCategoriasScreen from "./Screens/categoria/ListaCategoriasScreen";
+import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
+import AdicionarItem from "./Screens/categoria/AdicionarItem";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,10 +42,7 @@ export default function App() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabBarIcon}>
-              <IconSvg
-                name="house"
-                color={focused ? "#FFB056" : "#6e6e6e"}
-              />
+              <IconSvg name="house" color={focused ? "#FFB056" : "#6e6e6e"} />
             </View>
           ),
           tabBarLabel: ({ focused }) => (
@@ -70,10 +68,7 @@ export default function App() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabBarIcon}>
-              <IconSvg
-                name="list"
-                color={focused ? "#FFB056" : "#6e6e6e"}
-              />
+              <IconSvg name="list" color={focused ? "#FFB056" : "#6e6e6e"} />
             </View>
           ),
           tabBarLabel: ({ focused }) => (
@@ -102,11 +97,18 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="MainTabs" component={Tabs} />
-            <Stack.Screen name="SelecaoCategorias" component={SelecaoCategoriasScreen} />
-            <Stack.Screen name="ListaCategorias" component={ListaCategoriasScreen} />
+            <Stack.Screen
+              name="SelecaoCategorias"
+              component={SelecaoCategoriasScreen}
+            />
+            <Stack.Screen
+              name="ListaCategorias"
+              component={ListaCategoriaScreen}
+            />
+            <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
           </Stack.Navigator>
-        </NavigationContainer >
-      </CategoriaProvider >
+        </NavigationContainer>
+      </CategoriaProvider>
     </ElementoProvider>
   );
 }

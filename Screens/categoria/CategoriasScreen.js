@@ -26,7 +26,7 @@ export default function CategoriasScreen() {
           <TouchableOpacity
             key={cat.categoria}
             onPress={() =>
-              navigation.navigate("ListaCategoriaScreen", {
+              navigation.navigate("ListaCategorias", {
                 nomeCategoria: cat.categoria,
               })
             }

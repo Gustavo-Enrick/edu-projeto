@@ -1,16 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { ElementoContext } from "../../contexts/ElementoProvider";
+import BotaoVoltar from "../../components/botao/BotaoVoltar";
+import { CategoriaContext } from "../../contexts/CategoriaContext";
+import BotaoExcluir from "../../components/botao/BotaoExcluir";
 
-export default ListaCategoriaScreen = () => {
+export default function ListaCategoriaScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
   const { nomeCategoria } = route.params;
   const { elementosPorCategoria } = useContext(ElementoContext);
+  const { categorias } = useContext(CategoriaContext);
+  const categoria = categorias.find((cat) => cat.categoria === nomeCategoria);
   const [despesas, setDespesas] = useState([]);
-
-  console.log(nomeCategoria);
-  console.log(elementosPorCategoria);
 
   useEffect(() => {
     if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {
@@ -21,6 +30,10 @@ export default ListaCategoriaScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
+      <Text style={styles.subTitulo}>Valor Mensal</Text>
+      <Text style={styles.valorMensal}>
+        R$: {categoria?.valorTotal?.toFixed(2) || "0.00"}
+      </Text>
 
       {despesas.length > 0 ? (
         <FlatList
@@ -28,11 +41,14 @@ export default ListaCategoriaScreen = () => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={styles.despesaContainer}>
-              <Text style={styles.despesaNome}>{item.nome}</Text>
-              <Text style={styles.despesaValor}>R$ {item.valor}</Text>
-              <Text style={styles.despesaData}>
-                Data de Expiração: {item.dataExpiracao}
-              </Text>
+              <View style={styles.infoContainer}>
+                <Text style={styles.despesaNome}>{item.nome}</Text>
+                <Text style={styles.despesaValor}>R$ {item.valor}</Text>
+                <Text style={styles.despesaData}>
+                  Data de Expiração: {item.dataExpiracao}
+                </Text>
+              </View>
+              <BotaoExcluir nome={item.nome} />
             </View>
           )}
         />
@@ -41,9 +57,20 @@ export default ListaCategoriaScreen = () => {
           Não há despesas associadas a essa categoria.
         </Text>
       )}
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() =>
+          navigation.navigate("AdicionarItem", { nomeCategoria: nomeCategoria })
+        }
+      >
+        <Text style={styles.mais}>+</Text>
+      </TouchableOpacity>
+
+      <BotaoVoltar></BotaoVoltar>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +84,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   despesaContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 15,
     padding: 10,
     borderWidth: 1,
@@ -79,5 +109,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: "#888",
+  },
+  botao: {
+    backgroundColor: "#FFA500",
+    borderRadius: 30,
+    width: 50,
+    height: 50,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  mais: {
+    fontSize: 28,
+    color: "#000",
+  },
+  valorMensal: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  subTitulo: {
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 5,
+    fontWeight: "600",
+  },
+  infoContainer: {
+    flex: 1,
+    paddingRight: 10,
   },
 });

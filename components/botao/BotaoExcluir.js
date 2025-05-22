@@ -3,14 +3,18 @@ import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import IconSvg from "../iconSvg/IconSvg";
 
-export default function BotaoExcluir() {
+export default function BotaoExcluir({ nomeCategoria, nomeItem }) {
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.botaoVoltar}
-        onPress={() => navigation.navigate("excluir")}
+        onPress={() =>
+          navigation.navigate("ExcluirItem", {
+            nomeCategoria: nomeCategoria,
+            nomeElemento: nomeItem,
+          })
+        }
       >
         <IconSvg name="trash-arrow-up" color="#FF0000" size={20}></IconSvg>
       </TouchableOpacity>

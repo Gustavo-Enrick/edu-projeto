@@ -21,6 +21,7 @@ export default function ListaCategoriaScreen() {
   const categoria = categorias.find((cat) => cat.categoria === nomeCategoria);
   const [despesas, setDespesas] = useState([]);
 
+  //código que traz as despesas da categoria
   useEffect(() => {
     if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {
       setDespesas(elementosPorCategoria[nomeCategoria]);
@@ -32,7 +33,7 @@ export default function ListaCategoriaScreen() {
       <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
       <Text style={styles.subTitulo}>Valor Mensal</Text>
       <Text style={styles.valorMensal}>
-        R$: {categoria?.valorTotal?.toFixed(2) || "0.00"}
+        R$: {categoria?.valorTotal?.toFixed(2) || "0,00"}
       </Text>
 
       {despesas.length > 0 ? (
@@ -43,12 +44,17 @@ export default function ListaCategoriaScreen() {
             <View style={styles.despesaContainer}>
               <View style={styles.infoContainer}>
                 <Text style={styles.despesaNome}>{item.nome}</Text>
-                <Text style={styles.despesaValor}>R$ {item.valor}</Text>
+                <Text style={styles.despesaValor}>
+                  R$ {item.valor.toFixed(2)}
+                </Text>
                 <Text style={styles.despesaData}>
                   Data de Expiração: {item.dataExpiracao}
                 </Text>
               </View>
-              <BotaoExcluir nome={item.nome} />
+              <BotaoExcluir
+                nomeCategoria={nomeCategoria}
+                nomeItem={item.nome}
+              />
             </View>
           )}
         />

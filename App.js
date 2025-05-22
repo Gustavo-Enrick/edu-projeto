@@ -10,7 +10,8 @@ import IconSvg from "./components/iconSvg/IconSvg";
 import { CategoriaProvider } from "./contexts/CategoriaContext";
 import { ElementoProvider } from "./contexts/ElementoProvider";
 import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
-import AdicionarItem from "./Screens/categoria/AdicionarItem";
+import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
+import ExcluirItemScreen from "./Screens/categoria/ExcluirItemScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -106,6 +107,7 @@ export default function App() {
               component={ListaCategoriaScreen}
             />
             <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
+            <Stack.Screen name="ExcluirItem" component={ExcluirItemScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </CategoriaProvider>

@@ -86,6 +86,14 @@ export const ElementoProvider = ({ children }) => {
     }));
   };
 
+  // Carrega um elemento por nome dentro de uma categoria
+  const carregarElementoPorCategoria = (nomeCategoria, nomeElemento) => {
+    const elemento = elementosPorCategoria[nomeCategoria].find(
+      (el) => el.nome === nomeElemento
+    );
+    return elemento || null;
+  };
+
   // Remove um elemento por nome
   const removerElementoDaCategoria = (nomeCategoria, nomeElemento) => {
     setElementosPorCategoria((prev) => ({
@@ -102,6 +110,7 @@ export const ElementoProvider = ({ children }) => {
         elementosPorCategoria,
         adicionarElementoNaCategoria,
         removerElementoDaCategoria,
+        carregarElementoPorCategoria,
         setElementosPorCategoria,
       }}
     >

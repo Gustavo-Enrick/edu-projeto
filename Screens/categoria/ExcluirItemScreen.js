@@ -1,39 +1,42 @@
-import React, { useState, useContext } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ElementoContext } from "../../contexts/ElementoProvider";
-import BotaoSalvar from "../../components/botao/BotaoSalvar";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
 
-export default function AdicionarItem() {
+export default function ExcluirItemScreen() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { nomeCategoria } = route.params;
-  const { adicionarElementoNaCategoria } = useContext(ElementoContext);
+  const { nomeCategoria, nomeElemento } = route.params;
+  const { removerElementoDaCategoria, carregarElementoPorCategoria } =
+    useContext(ElementoContext);
 
   const [titulo, setTitulo] = useState("");
   const [valor, setValor] = useState("");
   const [data, setData] = useState("");
 
-  const handleSalvar = () => {
-    if (!titulo || !valor || !data) {
-      alert("Preencha todos os campos!");
-      return;
-    } else {
-      adicionarElementoNaCategoria(nomeCategoria, {
-        nome: titulo,
-        valor: parseFloat(valor),
-        dataExpiracao: data,
-      });
+  useEffect(() => {
+    const carregarDados = () => {
+      const dados = carregarElementoPorCategoria(nomeCategoria, nomeElemento);
+      if (dados) {
+        setTitulo(dados.nome);
+        setValor(dados.valor);
+        setData(dados.dataExpiracao);
+      }
+    };
+    carregarDados();
+  }, [nomeCategoria, nomeElemento]);
 
-      setTitulo("");
-      setValor("");
-      setData("");
-
-      navigation.goBack();
-    }
+  const handleExcluir = () => {
+    removerElementoDaCategoria(nomeCategoria, nomeElemento);
+    navigation.goBack();
   };
-  console.log(nomeCategoria);
 
   return (
     <View style={styles.container}>
@@ -71,7 +74,9 @@ export default function AdicionarItem() {
         />
       </View>
 
-      <BotaoSalvar onPress={handleSalvar} />
+      <TouchableOpacity style={styles.botao} onPress={handleExcluir}>
+        <Text style={styles.texto}>Excluir</Text>
+      </TouchableOpacity>
       <BotaoVoltar />
     </View>
   );
@@ -112,5 +117,18 @@ const styles = StyleSheet.create({
   inputFlex: {
     flex: 1,
     marginBottom: 0,
+  },
+  botao: {
+    backgroundColor: "#FF3B30",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 15,
+  },
+  texto: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

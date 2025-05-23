@@ -94,6 +94,8 @@ export const ElementoProvider = ({ children }) => {
     return elemento || null;
   };
 
+  // Adicionar elemento para editar
+
   // Remove um elemento por nome
   const removerElementoDaCategoria = (nomeCategoria, nomeElemento) => {
     setElementosPorCategoria((prev) => ({

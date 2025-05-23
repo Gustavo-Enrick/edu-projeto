@@ -11,6 +11,7 @@ import { ElementoContext } from "../../contexts/ElementoProvider";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import BotaoExcluir from "../../components/botao/BotaoExcluir";
+import BotaoEditar from "../../components/botao/BotaoEditar";
 
 export default function ListaCategoriaScreen() {
   const route = useRoute();
@@ -31,6 +32,14 @@ export default function ListaCategoriaScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
+
+      <Text style={styles.textoBranco}>
+        Adicionar{" "}
+        {nomeCategoria === "Investimento" || nomeCategoria === "Receita"
+          ? "Receita"
+          : "Despesa"}
+      </Text>
+
       <Text style={styles.subTitulo}>Valor Mensal</Text>
       <Text style={styles.valorMensal}>
         R$: {categoria?.valorTotal?.toFixed(2) || "0,00"}
@@ -51,6 +60,7 @@ export default function ListaCategoriaScreen() {
                   Data de Expiração: {item.dataExpiracao}
                 </Text>
               </View>
+              <BotaoEditar nomeCategoria={nomeCategoria} nomeItem={item.nome} />
               <BotaoExcluir
                 nomeCategoria={nomeCategoria}
                 nomeItem={item.nome}
@@ -73,7 +83,7 @@ export default function ListaCategoriaScreen() {
         <Text style={styles.mais}>+</Text>
       </TouchableOpacity>
 
-      <BotaoVoltar></BotaoVoltar>
+      <BotaoVoltar />
     </View>
   );
 }
@@ -81,40 +91,73 @@ export default function ListaCategoriaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#2A2929",
     padding: 20,
   },
   titulo: {
-    fontSize: 24,
+    fontSize: 26,
+    color: "#3C3C3C",
+    marginBottom: 10,
+    fontFamily: "AlbertSans-Bold",
     fontWeight: "bold",
-    marginBottom: 20,
+    backgroundColor: "#FFB056",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingTop: 30,
+    paddingBottom: 30,
     textAlign: "center",
+  },
+  subTitulo: {
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+    color: "#FFFFFF",
+    marginBottom: 5,
+  },
+  valorMensal: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#FFFFFF",
+  },
+  textoBranco: {
+    textAlign: "center",
+    color: "#FFFFFF",
+    marginBottom: 10,
+    fontSize: 16,
   },
   despesaContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 15,
-    padding: 10,
+    padding: 15,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
+    backgroundColor: "#3C3C3C",
+  },
+  infoContainer: {
+    flex: 1,
+    paddingRight: 10,
   },
   despesaNome: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#FFFFFF",
   },
   despesaValor: {
     fontSize: 16,
-    color: "#4A90E2",
+    color: "#FFA500",
   },
   despesaData: {
     fontSize: 14,
-    color: "#555",
+    color: "#DDDDDD",
   },
   semDespesas: {
     fontSize: 16,
     textAlign: "center",
-    color: "#888",
+    color: "#CCCCCC",
   },
   botao: {
     backgroundColor: "#FFA500",
@@ -124,25 +167,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 1,
   },
   mais: {
     fontSize: 28,
     color: "#000",
-  },
-  valorMensal: {
-    fontSize: 20,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  subTitulo: {
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 5,
-    fontWeight: "600",
-  },
-  infoContainer: {
-    flex: 1,
-    paddingRight: 10,
   },
 });

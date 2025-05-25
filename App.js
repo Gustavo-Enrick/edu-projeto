@@ -1,22 +1,22 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import TelaMenu from "./Telas/TelaMenu";
 import TelaCadastro from "./Telas/TelaCadastro";
 import TelaInfo from "./Telas/TelaInfo";
 import { GastosProvider } from "./context/GastosProvider";
 
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <GastosProvider>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="Menu">
-          <Tab.Screen name="Menu" component={TelaMenu} />
-          <Tab.Screen name="Cadastro" component={TelaCadastro} />
-          <Tab.Screen name="Info" component={TelaInfo} />
-        </Tab.Navigator>
+        <Drawer.Navigator initialRouteName="Menu">
+          <Drawer.Screen name="Menu" component={TelaMenu} />
+          <Drawer.Screen name="Cadastro" component={TelaCadastro} />
+          <Drawer.Screen name="Info" component={TelaInfo} />
+        </Drawer.Navigator>
       </NavigationContainer>
     </GastosProvider>
   );

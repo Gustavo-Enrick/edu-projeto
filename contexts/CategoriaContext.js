@@ -7,24 +7,87 @@ export const CategoriaProvider = ({ children }) => {
   const [categorias, setCategorias] = useState([]);
 
   const categoriasPadrao = [
-    { categoria: "Receita", cor: "#7ED321", valorTotal: 2000, ativo: true },
-    { categoria: "Assinatura", cor: "#4A90E2", valorTotal: 80, ativo: true },
-    { categoria: "Investimento", cor: "#F93535", valorTotal: 220, ativo: true },
-    { categoria: "Lazer", cor: "#BD10E0", valorTotal: 120, ativo: true },
-    { categoria: "Mercado", cor: "#AAA130", valorTotal: 600, ativo: true },
-    { categoria: "Saúde", cor: "#50E3C2", valorTotal: 100, ativo: true },
-    { categoria: "Transporte", cor: "#7300D9", valorTotal: 260, ativo: true },
-    { categoria: "Vestuário", cor: "#4B1212", valorTotal: 400, ativo: true },
+    {
+      categoria: "Receita",
+      cor: "#7ED321",
+      valorTotal: 2000,
+      ativo: true,
+      descricao: "Receitas mensais, como salário, freelas, etc.",
+    },
+    {
+      categoria: "Assinatura",
+      cor: "#4A90E2",
+      valorTotal: 80,
+      ativo: true,
+      descricao: "Despesas com assinaturas, como Netflix, Spotify, etc.",
+    },
+    {
+      categoria: "Investimento",
+      cor: "#F93535",
+      valorTotal: 220,
+      ativo: true,
+      descricao: "Despesas com investimentos, como ações, fundos, etc.",
+    },
+    {
+      categoria: "Lazer",
+      cor: "#BD10E0",
+      valorTotal: 120,
+      ativo: true,
+      descricao: "Despesas com lazer, como cinema, shows, etc.",
+    },
+    {
+      categoria: "Mercado",
+      cor: "#AAA130",
+      valorTotal: 600,
+      ativo: true,
+      descricao: "Despesas com supermercado e compras de mercado.",
+    },
+    {
+      categoria: "Saúde",
+      cor: "#50E3C2",
+      valorTotal: 100,
+      ativo: true,
+      descricao: "Despesas com saúde, como consultas médicas, medicamentos, etc.",
+    },
+    {
+      categoria: "Transporte",
+      cor: "#7300D9",
+      valorTotal: 260,
+      ativo: true,
+      descricao: "Veja aqui as despesas com transporte, como aplicativo de transporte, ônibus, táxis, etc.",
+    },
+    {
+      categoria: "Vestuário",
+      cor: "#4B1212",
+      valorTotal: 400,
+      ativo: true,
+      descricao: "Despesas com roupas e acessórios.",
+    },
   ];
 
-  //Carrega do AsyncStorage ao iniciar
+  // Carrega do AsyncStorage ao iniciar
   useEffect(() => {
     const carregarCategorias = async () => {
-      const json = await AsyncStorage.getItem("@categorias");
-
       try {
+        const json = await AsyncStorage.getItem("@categorias");
+
         if (json && JSON.parse(json).categorias.length > 0) {
-          setCategorias(JSON.parse(json).categorias);
+          const categoriasSalvas = JSON.parse(json).categorias;
+
+          const categoriasComDescricao = categoriasSalvas.map((catSalva) => {
+            const catPadrao = categoriasPadrao.find(
+              (c) => c.categoria === catSalva.categoria
+            );
+
+            return {
+              ...catPadrao,
+              ...catSalva,
+              descricao:
+                catSalva.descricao || (catPadrao ? catPadrao.descricao : "Sem descrição."),
+            };
+          });
+
+          setCategorias(categoriasComDescricao);
         } else {
           setCategorias(categoriasPadrao);
           await AsyncStorage.setItem(
@@ -35,18 +98,12 @@ export const CategoriaProvider = ({ children }) => {
       } catch (error) {
         console.error("Erro ao carregar categorias:", error);
       }
-
-      // setCategorias(categoriasPadrao);
-      // await AsyncStorage.setItem(
-      //   "@categorias",
-      //   JSON.stringify({ categorias: categoriasPadrao })
-      // );
     };
 
     carregarCategorias();
   }, []);
 
-  //Salva no AsyncStorage toda vez que as categorias mudarem
+  // Salva no AsyncStorage toda vez que as categorias mudarem
   useEffect(() => {
     const salvarCategorias = async () => {
       try {

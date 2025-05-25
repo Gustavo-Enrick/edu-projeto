@@ -12,6 +12,7 @@ import { ElementoProvider } from "./contexts/ElementoProvider";
 import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
 import ExcluirItemScreen from "./Screens/categoria/ExcluirItemScreen";
+import EditarItem from "./Screens/categoria/EditarItemScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -107,6 +108,7 @@ export default function App() {
               component={ListaCategoriaScreen}
             />
             <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
+            <Stack.Screen name="EditarItem" component={EditarItem} />
             <Stack.Screen name="ExcluirItem" component={ExcluirItemScreen} />
           </Stack.Navigator>
         </NavigationContainer>

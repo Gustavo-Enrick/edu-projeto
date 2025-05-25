@@ -1,10 +1,5 @@
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import TelaMenu from "./Telas/TelaMenu";
-import TelaCadastro from "./Telas/TelaCadastro";
-import TelaInfo from "./Telas/TelaInfo";
-import { GastosProvider } from "./context/GastosProvider";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useFonts } from "expo-font";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,8 +12,8 @@ import { ElementoProvider } from "./contexts/ElementoProvider";
 import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
 import ExcluirItemScreen from "./Screens/categoria/ExcluirItemScreen";
+import EditarItem from "./Screens/categoria/EditarItemScreen";
 
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -99,15 +94,6 @@ export default function App() {
   );
 
   return (
-    <GastosProvider>
-      <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Menu">
-          <Drawer.Screen name="Menu" component={TelaMenu} />
-          <Drawer.Screen name="Cadastro" component={TelaCadastro} />
-          <Drawer.Screen name="Info" component={TelaInfo} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </GastosProvider>
     <ElementoProvider>
       <CategoriaProvider>
         <NavigationContainer>
@@ -122,6 +108,7 @@ export default function App() {
               component={ListaCategoriaScreen}
             />
             <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
+            <Stack.Screen name="EditarItem" component={EditarItem} />
             <Stack.Screen name="ExcluirItem" component={ExcluirItemScreen} />
           </Stack.Navigator>
         </NavigationContainer>

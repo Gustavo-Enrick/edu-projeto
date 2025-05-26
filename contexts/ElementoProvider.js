@@ -95,7 +95,15 @@ export const ElementoProvider = ({ children }) => {
   };
 
   // Adicionar elemento para editar
-
+  const editarElemento = (nomeCategoria, nomeElemento, novosDados) => {
+    setElementosPorCategoria((prev) => ({
+      ...prev,
+      [nomeCategoria]: prev[nomeCategoria].map((el) =>
+        el.nome === nomeElemento ? { ...el, ...novosDados } : el
+      ),
+    }));
+  };  
+  
   // Remove um elemento por nome
   const removerElementoDaCategoria = (nomeCategoria, nomeElemento) => {
     setElementosPorCategoria((prev) => ({
@@ -113,6 +121,7 @@ export const ElementoProvider = ({ children }) => {
         adicionarElementoNaCategoria,
         removerElementoDaCategoria,
         carregarElementoPorCategoria,
+        editarElemento,
         setElementosPorCategoria,
       }}
     >

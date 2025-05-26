@@ -16,9 +16,9 @@ export default function EditarItem() {
   const navigation = useNavigation();
   const { nomeCategoria, nomeElemento } = route.params;
   const {
-    removerElementoDaCategoria,
+    editarElemento,
     carregarElementoPorCategoria,
-  } = useContext(ElementoContext); //mudar função
+  } = useContext(ElementoContext);
   const [titulo, setTitulo] = useState("");
   const [valor, setValor] = useState("");
   const [data, setData] = useState("");
@@ -35,8 +35,12 @@ export default function EditarItem() {
     carregarDados();
   }, [nomeCategoria, nomeElemento]);
 
-  const handleExcluir = () => {
-    removerElementoDaCategoria(nomeCategoria, nomeElemento);
+  const handleEditar = () => {
+    editarElemento(nomeCategoria, nomeElemento, {
+      nome: titulo,
+      valor: parseFloat(valor),
+      dataExpiracao: data,
+    });    
     navigation.goBack();
   };
 
@@ -77,8 +81,8 @@ export default function EditarItem() {
           />
         </View>
 
-        <TouchableOpacity style={styles.botao} onPress={handleExcluir}>
-          <Text style={styles.texto}>Excluir</Text>
+        <TouchableOpacity style={styles.botao} onPress={handleEditar}>
+          <Text style={styles.texto}>Editar</Text>
         </TouchableOpacity>
         <BotaoVoltar />
       </ScrollView>
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   botao: {
-    backgroundColor: "#FF3B30", // Cor do botão de excluir
+    backgroundColor: "#FFFF00", // Cor do botão de excluir
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo, use } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,9 @@ import { ElementoContext } from "../../contexts/ElementoProvider";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import BotaoExcluir from "../../components/botao/BotaoExcluir";
+import { Modal } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import BotaoHelp from "../../components/botao/BotaoHelp";
 import BotaoEditar from "../../components/botao/BotaoEditar";
 
 export default function ListaCategoriaScreen() {
@@ -19,8 +22,15 @@ export default function ListaCategoriaScreen() {
   const { nomeCategoria } = route.params;
   const { elementosPorCategoria } = useContext(ElementoContext);
   const { categorias } = useContext(CategoriaContext);
-  const categoria = categorias.find((cat) => cat.categoria === nomeCategoria);
+
+  const categoria = categorias.find(
+    (cat) => cat.categoria.trim().toLowerCase() === nomeCategoria.trim().toLowerCase()
+  );  
+
+  const descricao = categoria?.descricao || "Sem descrição disponível.";
+
   const [despesas, setDespesas] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   //código que traz as despesas da categoria
   useEffect(() => {
@@ -31,6 +41,7 @@ export default function ListaCategoriaScreen() {
 
   return (
     <View style={styles.container}>
+     <BotaoHelp descricao={descricao} />
       <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
 
       <Text style={styles.textoBranco}>

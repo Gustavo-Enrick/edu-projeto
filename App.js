@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   tabBarLabel: {
     fontFamily: "AlbertSans-Regular",
     fontSize: 12,
-    paddingTop: 5,
+    paddingTop: 5
   },
 });

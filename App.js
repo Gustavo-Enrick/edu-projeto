@@ -55,6 +55,7 @@ export default function App() {
                   fontFamily: "AlbertSans-Regular",
                   fontSize: 12,
                   paddingTop: 5,
+                  flexDirection: "row"
                 },
                 styles.tabBarIcon,
               ]}
@@ -119,11 +120,11 @@ export default function App() {
 
 const styles = StyleSheet.create({
   tabBarIcon: {
-    justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
-    width: 35,
-    height: 35,
+    justifyContent: "center", 
   },
+
   tabBarLabel: {
     fontFamily: "AlbertSans-Regular",
     fontSize: 12,

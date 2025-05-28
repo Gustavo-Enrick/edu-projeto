@@ -59,7 +59,7 @@ export default function HomeScreen() {
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-up" color="#3BA844" size={50} />
+            <IconSvg name="circle-arrow-up" color="#3BA844" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
@@ -69,7 +69,7 @@ export default function HomeScreen() {
           <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-down" color="#D6291B" size={50} />
+            <IconSvg name="circle-arrow-down" color="#D6291B" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
@@ -80,7 +80,13 @@ export default function HomeScreen() {
 
       <Text style={styles.tituloSecao}>Valor por Categoria</Text>
       <View style={styles.graficoContainer}>
-        <PieChart widthAndHeight={120} cover={0.55} series={series} />
+        {series.length > 0 ? (
+          <PieChart widthAndHeight={120} cover={0.55} series={series} />
+        ) : (
+          <Text style={{ color: "#3C3C3C", marginLeft: 12 }}>
+            Sem dados para exibir.
+          </Text>
+        )}
         <View style={styles.legenda}>
           {categoriasAtivas.map((item) => (
             <View style={styles.itemLegenda} key={item.categoria}>

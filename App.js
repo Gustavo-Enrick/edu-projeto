@@ -75,6 +75,7 @@ export default function App() {
           ),
           tabBarLabel: ({ focused }) => (
             <Text
+              numberOfLines={1}
               style={[
                 {
                   color: focused ? "#FFB056" : "#6e6e6e",

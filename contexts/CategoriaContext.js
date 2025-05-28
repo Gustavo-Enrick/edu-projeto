@@ -1,65 +1,69 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ElementoContext } from "./ElementoProvider";
 
 export const CategoriaContext = createContext();
 
 export const CategoriaProvider = ({ children }) => {
   const [categorias, setCategorias] = useState([]);
+  const { elementosPorCategoria } = useContext(ElementoContext);
 
   const categoriasPadrao = [
     {
       categoria: "Receita",
       cor: "#7ED321",
-      valorTotal: 2000,
+      valorTotal: 0,
       ativo: true,
       descricao: "Receitas mensais, como salário, freelas, etc.",
     },
     {
       categoria: "Assinatura",
       cor: "#4A90E2",
-      valorTotal: 80,
+      valorTotal: 0,
       ativo: true,
       descricao: "Despesas com assinaturas, como Netflix, Spotify, etc.",
     },
     {
       categoria: "Investimento",
       cor: "#F93535",
-      valorTotal: 220,
+      valorTotal: 0,
       ativo: true,
       descricao: "Despesas com investimentos, como ações, fundos, etc.",
     },
     {
       categoria: "Lazer",
       cor: "#BD10E0",
-      valorTotal: 120,
+      valorTotal: 0,
       ativo: true,
       descricao: "Despesas com lazer, como cinema, shows, etc.",
     },
     {
       categoria: "Mercado",
       cor: "#AAA130",
-      valorTotal: 600,
+      valorTotal: 0,
       ativo: true,
       descricao: "Despesas com supermercado e compras de mercado.",
     },
     {
       categoria: "Saúde",
       cor: "#50E3C2",
-      valorTotal: 100,
+      valorTotal: 0,
       ativo: true,
-      descricao: "Despesas com saúde, como consultas médicas, medicamentos, etc.",
+      descricao:
+        "Despesas com saúde, como consultas médicas, medicamentos, etc.",
     },
     {
       categoria: "Transporte",
       cor: "#7300D9",
-      valorTotal: 260,
+      valorTotal: 0,
       ativo: true,
-      descricao: "Veja aqui as despesas com transporte, como aplicativo de transporte, ônibus, táxis, etc.",
+      descricao:
+        "Veja aqui as despesas com transporte, como aplicativo de transporte, ônibus, táxis, etc.",
     },
     {
       categoria: "Vestuário",
       cor: "#4B1212",
-      valorTotal: 400,
+      valorTotal: 0,
       ativo: true,
       descricao: "Despesas com roupas e acessórios.",
     },
@@ -70,11 +74,12 @@ export const CategoriaProvider = ({ children }) => {
     const carregarCategorias = async () => {
       try {
         const json = await AsyncStorage.getItem("@categorias");
+        let categoriasIniciais = categoriasPadrao;
 
         if (json && JSON.parse(json).categorias.length > 0) {
           const categoriasSalvas = JSON.parse(json).categorias;
 
-          const categoriasComDescricao = categoriasSalvas.map((catSalva) => {
+          categoriasIniciais = categoriasSalvas.map((catSalva) => {
             const catPadrao = categoriasPadrao.find(
               (c) => c.categoria === catSalva.categoria
             );
@@ -83,27 +88,42 @@ export const CategoriaProvider = ({ children }) => {
               ...catPadrao,
               ...catSalva,
               descricao:
-                catSalva.descricao || (catPadrao ? catPadrao.descricao : "Sem descrição."),
+                catSalva.descricao ||
+                (catPadrao ? catPadrao.descricao : "Sem descrição."),
             };
           });
-
-          setCategorias(categoriasComDescricao);
-        } else {
-          setCategorias(categoriasPadrao);
-          await AsyncStorage.setItem(
-            "@categorias",
-            JSON.stringify({ categorias: categoriasPadrao })
-          );
         }
+
+        setCategorias(categoriasIniciais);
       } catch (error) {
         console.error("Erro ao carregar categorias:", error);
+        setCategorias(categoriasPadrao);
       }
     };
 
     carregarCategorias();
   }, []);
 
-  // Salva no AsyncStorage toda vez que as categorias mudarem
+  // Atualiza valor total sempre que os elementos mudam
+  useEffect(() => {
+    const atualizarValoresTotais = () => {
+      const novasCategorias = categorias.map((cat) => {
+        const elementos = elementosPorCategoria[cat.categoria] || [];
+        const total = elementos.reduce((acc, el) => acc + (el.valor || 0), 0);
+        const ativo = total > 0;
+
+        return { ...cat, valorTotal: total, ativo: ativo };
+      });
+
+      setCategorias(novasCategorias);
+    };
+
+    if (categorias.length > 0) {
+      atualizarValoresTotais();
+    }
+  }, [elementosPorCategoria]);
+
+  // Salva as categorias no AsyncStorage quando elas mudarem
   useEffect(() => {
     const salvarCategorias = async () => {
       try {

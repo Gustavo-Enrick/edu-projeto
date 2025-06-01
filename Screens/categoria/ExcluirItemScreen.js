@@ -43,7 +43,7 @@ export default function ExcluirItemScreen() {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <Text style={styles.titulo}>
-          Adicionar{" "}
+          Excluir{" "}
           {nomeCategoria === "Investimento" || nomeCategoria === "Receita"
             ? "Receita"
             : "Despesa"}
@@ -92,29 +92,29 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    backgroundColor: "#2A2929", // Cor de fundo preta
+    backgroundColor: "#2A2929",
   },
   titulo: {
-    fontSize: 32,
-    color: "#3C3C3C", // Cor do texto do título
+    fontSize: 26,
+    color: "#3C3C3C",
     marginBottom: 8,
     fontFamily: "AlbertSans-Bold",
     fontWeight: "bold",
-    backgroundColor: "#FFB056", // Cor do fundo do título (laranja)
+    backgroundColor: "#FFB056",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingTop: 30,
+    paddingBottom: 30,
     textAlign: "center",
   },
   subtitulo: {
     fontSize: 18,
-    color: "#FFF", // Cor do texto do subtítulo
+    color: "#FFF",
     marginBottom: 20,
     textAlign: "center",
   },
   textoBranco: {
-    color: "#FFF", // Cor do texto das labels
+    color: "#FFF",
     fontSize: 16,
   },
   input: {
@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginBottom: 15,
-    color: "#FFF", // Cor do texto no input
-    backgroundColor: "#3C3C3C", // Cor do fundo do input
+    color: "#FFF",
+    backgroundColor: "#3C3C3C",
   },
   row: {
     flexDirection: "row",
@@ -135,14 +135,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginRight: 10,
     width: 50,
-    color: "#FFF", // Cor da label
+    color: "#FFF",
   },
   inputFlex: {
     flex: 1,
     marginBottom: 0,
   },
   botao: {
-    backgroundColor: "#FF3B30", // Cor do botão de excluir
+    backgroundColor: "#FF3B30",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

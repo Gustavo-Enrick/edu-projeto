@@ -24,8 +24,9 @@ export default function ListaCategoriaScreen() {
   const { categorias } = useContext(CategoriaContext);
 
   const categoria = categorias.find(
-    (cat) => cat.categoria.trim().toLowerCase() === nomeCategoria.trim().toLowerCase()
-  );  
+    (cat) =>
+      cat.categoria.trim().toLowerCase() === nomeCategoria.trim().toLowerCase()
+  );
 
   const descricao = categoria?.descricao || "Sem descrição disponível.";
 
@@ -41,8 +42,10 @@ export default function ListaCategoriaScreen() {
 
   return (
     <View style={styles.container}>
-     <BotaoHelp descricao={descricao} />
-      <Text style={styles.titulo}>Categoria: {nomeCategoria}</Text>
+      <BotaoHelp descricao={descricao} />
+      <Text style={[styles.titulo, { backgroundColor: categoria.cor }]}>
+        Categoria: {nomeCategoria}
+      </Text>
 
       <Text style={styles.textoBranco}>
         Adicionar{" "}
@@ -61,21 +64,29 @@ export default function ListaCategoriaScreen() {
           data={despesas}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <View style={styles.despesaContainer}>
-              <View style={styles.infoContainer}>
-                <Text style={styles.despesaNome}>{item.nome}</Text>
-                <Text style={styles.despesaValor}>
-                  R$ {item.valor.toFixed(2)}
-                </Text>
-                <Text style={styles.despesaData}>
-                  Data de Expiração: {item.dataExpiracao}
-                </Text>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={styles.dataFormatoRedondo}>
+                {item.dataExpiracao}
+              </Text>
+              <View style={styles.despesaContainer}>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.despesaNome}>{item.nome}</Text>
+                  <Text style={styles.despesaValor}>
+                    R$ {item.valor.toFixed(2)}
+                  </Text>
+                  <Text style={styles.despesaData}>
+                    Data de Expiração: {item.dataExpiracao}
+                  </Text>
+                </View>
+                <BotaoEditar
+                  nomeCategoria={nomeCategoria}
+                  nomeItem={item.nome}
+                />
+                <BotaoExcluir
+                  nomeCategoria={nomeCategoria}
+                  nomeItem={item.nome}
+                />
               </View>
-              <BotaoEditar nomeCategoria={nomeCategoria} nomeItem={item.nome} />
-              <BotaoExcluir
-                nomeCategoria={nomeCategoria}
-                nomeItem={item.nome}
-              />
             </View>
           )}
         />
@@ -111,7 +122,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: "AlbertSans-Bold",
     fontWeight: "bold",
-    backgroundColor: "#FFB056",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     paddingTop: 30,
@@ -148,6 +158,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#3C3C3C",
   },
+  dataFormatoRedondo: {
+    fontSize: 12,
+    color: "#FFFFFF",
+    backgroundColor: "#FFA500", // Ajustar para ser dinâmico(Gustavo)
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 50,
+    alignSelf: "flex-start",
+    marginBottom: 10,
+    marginRight: 10,
+    textAlign: "center",
+  },
+
   infoContainer: {
     flex: 1,
     paddingRight: 10,

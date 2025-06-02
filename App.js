@@ -34,7 +34,7 @@ export default function App() {
         tabBarStyle: {
           backgroundColor: "#353434",
           borderTopWidth: 0,
-          height: 70,
+          height: 70
         },
       }}
     >
@@ -55,6 +55,7 @@ export default function App() {
                   fontFamily: "AlbertSans-Regular",
                   fontSize: 12,
                   paddingTop: 5,
+                  textAlign: 'center'
                 },
                 styles.tabBarIcon,
               ]}
@@ -82,6 +83,7 @@ export default function App() {
                   fontFamily: "AlbertSans-Regular",
                   fontSize: 12,
                   paddingTop: 5,
+                  textAlign: 'center'
                 },
                 styles.tabBarIcon,
               ]}
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
   tabBarIcon: {
     justifyContent: "center",
     alignItems: "center",
-    width: 35,
+    width: 70,
     height: 35,
   },
   tabBarLabel: {

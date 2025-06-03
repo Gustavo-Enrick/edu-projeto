@@ -13,6 +13,7 @@ import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
 import ExcluirItemScreen from "./Screens/categoria/ExcluirItemScreen";
 import EditarItem from "./Screens/categoria/EditarItemScreen";
+import GuiasScreen from "./Screens/guia/GuiaScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -93,6 +94,38 @@ export default function App() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="Guias"
+        component={GuiasScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabBarIcon}>
+              <IconSvg name="book" color={focused ? "#FFB056" : "#6e6e6e"} />
+            </View>
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text
+              numberOfLines={1}
+              style={[
+                {
+                  color: focused ? "#FFB056" : "#6e6e6e",
+                  fontFamily: "AlbertSans-Regular",
+                  fontSize: 12,
+                  paddingTop: 5,
+                  textAlign: 'center',
+                },
+                styles.tabBarIcon,
+              ]}
+            >
+              Guias
+            </Text>
+          ),
+        }}
+      />
+
+
+      
     </Tab.Navigator>
   );
 

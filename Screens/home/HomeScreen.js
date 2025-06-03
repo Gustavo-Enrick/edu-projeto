@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
   const series = addSeries(categoriasAtivas);
 
-  if (categoriasAtivas.length === 0) return null;
+  useEffect(() => {}, []);
 
   return (
     <ScrollView
@@ -79,35 +79,37 @@ export default function HomeScreen() {
       </View>
 
       <Text style={styles.tituloSecao}>Valor por Categoria</Text>
-      <View style={styles.graficoContainer}>
-        {series.length > 0 ? (
+      {series.length > 0 ? (
+        <View style={styles.graficoContainer}>
           <PieChart widthAndHeight={120} cover={0.55} series={series} />
-        ) : (
-          <Text style={{ color: "#3C3C3C", marginLeft: 12 }}>
+          <View style={styles.legenda}>
+            {categoriasAtivas.map((item) => (
+              <View style={styles.itemLegenda} key={item.categoria}>
+                <View style={styles.colunaCor}>
+                  <View
+                    style={[styles.corLegenda, { backgroundColor: item.cor }]}
+                  />
+                </View>
+                <View style={styles.colunaCategoria}>
+                  <Text style={styles.textoCategoria}>{item.categoria}</Text>
+                </View>
+                <View style={styles.colunaValor}>
+                  <MonetaryText
+                    style={styles.textoValor}
+                    value={item.valorTotal}
+                  />
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      ) : (
+        <View style={styles.graficoContainer}>
+          <Text style={[styles.textoLabelResumo, { alignItems: "center" }]}>
             Sem dados para exibir.
           </Text>
-        )}
-        <View style={styles.legenda}>
-          {categoriasAtivas.map((item) => (
-            <View style={styles.itemLegenda} key={item.categoria}>
-              <View style={styles.colunaCor}>
-                <View
-                  style={[styles.corLegenda, { backgroundColor: item.cor }]}
-                />
-              </View>
-              <View style={styles.colunaCategoria}>
-                <Text style={styles.textoCategoria}>{item.categoria}</Text>
-              </View>
-              <View style={styles.colunaValor}>
-                <MonetaryText
-                  style={styles.textoValor}
-                  value={item.valorTotal}
-                />
-              </View>
-            </View>
-          ))}
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 }
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
   },
   iconResumo: {
     paddingRight: 5,
+    justifyContent: "center",
   },
   spaceResumo: {
     marginHorizontal: 10,

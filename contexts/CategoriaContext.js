@@ -110,9 +110,9 @@ export const CategoriaProvider = ({ children }) => {
       const novasCategorias = categorias.map((cat) => {
         const elementos = elementosPorCategoria[cat.categoria] || [];
         const total = elementos.reduce((acc, el) => acc + (el.valor || 0), 0);
-        const ativo = total > 0;
+        // const ativo = total > 0;
 
-        return { ...cat, valorTotal: total, ativo: ativo };
+        return { ...cat, valorTotal: total};
       });
 
       setCategorias(novasCategorias);
@@ -140,9 +140,9 @@ export const CategoriaProvider = ({ children }) => {
   const atualizarCategoria = (nome, novosDados) => {
     setCategorias((prev) =>
       prev.map((cat) => {
-        if (cat.categoria === "Receita") {
-          return { ...cat, ativo: true };
-        }
+        // if (cat.categoria === "Receita") {
+        //   return { ...cat, ativo: true };
+        // }
 
         return cat.categoria === nome ? { ...cat, ...novosDados } : cat;
       })

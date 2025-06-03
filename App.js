@@ -11,8 +11,8 @@ import { CategoriaProvider } from "./contexts/CategoriaContext";
 import { ElementoProvider } from "./contexts/ElementoProvider";
 import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
-import ExcluirItemScreen from "./Screens/categoria/ExcluirItemScreen";
 import EditarItem from "./Screens/categoria/EditarItemScreen";
+import GuiaScreen from "./Screens/guia/GuiaScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -29,6 +29,7 @@ export default function App() {
   const Tabs = () => (
     <Tab.Navigator
       initialRouteName="Home"
+      detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -56,7 +57,6 @@ export default function App() {
                   fontSize: 12,
                   paddingTop: 5,
                 },
-                styles.tabBarIcon,
               ]}
             >
               Home
@@ -83,10 +83,35 @@ export default function App() {
                   fontSize: 12,
                   paddingTop: 5,
                 },
-                styles.tabBarIcon,
               ]}
             >
               Categorias
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Guias"
+        component={GuiaScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabBarIcon}>
+              <IconSvg name="book" color={focused ? "#FFB056" : "#6e6e6e"} />
+            </View>
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text
+              numberOfLines={1}
+              style={[
+                {
+                  color: focused ? "#FFB056" : "#6e6e6e",
+                  fontFamily: "AlbertSans-Regular",
+                  fontSize: 12,
+                  paddingTop: 5,
+                },
+              ]}
+            >
+              Guias
             </Text>
           ),
         }}
@@ -98,7 +123,10 @@ export default function App() {
     <ElementoProvider>
       <CategoriaProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            detachInactiveScreens={true}
+          >
             <Stack.Screen name="MainTabs" component={Tabs} />
             <Stack.Screen
               name="SelecaoCategorias"
@@ -110,7 +138,6 @@ export default function App() {
             />
             <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
             <Stack.Screen name="EditarItem" component={EditarItem} />
-            <Stack.Screen name="ExcluirItem" component={ExcluirItemScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </CategoriaProvider>

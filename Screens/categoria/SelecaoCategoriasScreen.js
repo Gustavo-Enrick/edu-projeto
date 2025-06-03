@@ -30,7 +30,7 @@ export default function SelecaoCategoriasScreen() {
         <Text style={styles.titulo}>Seleção de Categorias</Text>
         <View style={styles.lista}>
           {categorias
-            .filter((cat) => cat.categoria !== "Receita")
+            // .filter((cat) => cat.categoria !== "Receita") //TODO: Por enquanto comentado pq acho que nao faz mais sentido
             .map((cat) => (
               <TouchableOpacity
                 key={cat.categoria}

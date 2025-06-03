@@ -9,7 +9,7 @@ export const ElementoProvider = ({ children }) => {
     Investimento: [],
     Lazer: [],
     Mercado: [],
-    Receita: [{ nome: "Salário", valor: 1789.04, dataExpiracao: "5" }],
+    Receita: [],
     Saúde: [],
     Transporte: [],
     Vestuário: [],

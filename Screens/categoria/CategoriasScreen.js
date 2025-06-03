@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
+import BotaoComIcone from "../../components/botao/BotaoComIcone";
+import MonetaryText from "../../components/monetaryText/MonetaryText";
 
 export default function CategoriasScreen() {
   const navigation = useNavigation();
@@ -16,10 +18,7 @@ export default function CategoriasScreen() {
   const categoriasAtivas = categorias.filter((cat) => cat.ativo === true);
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ paddingBottom: 40 }}
-    >
+    <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
       <ScrollView contentContainerStyle={styles.scroll}>
         {categoriasAtivas.map((cat) => (
@@ -33,18 +32,22 @@ export default function CategoriasScreen() {
           >
             <View style={[styles.card, { backgroundColor: cat.cor }]}>
               <Text style={styles.nome}>{cat.categoria}</Text>
-              <Text style={styles.valor}>R$ {cat.valorTotal.toFixed(2)}</Text>
+              <MonetaryText
+                style={styles.valor}
+                value={cat.valorTotal}
+                resize={false}
+              />
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity
-        style={styles.botao}
+      <BotaoComIcone
         onPress={() => navigation.navigate("SelecaoCategorias")}
-      >
-        <Text style={styles.mais}>+</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        color="#FFB056"
+        size={50}
+        style={styles.botaoComIcone}
+      ></BotaoComIcone>
+    </View>
   );
 }
 
@@ -65,18 +68,25 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingBottom: 50,
     textAlign: "center",
+    alignContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
   },
-  card: { borderRadius: 10, padding: 30, alignItems: "center", margin: 15 },
-  nome: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-  valor: { color: "#fff", fontSize: 20 },
-  botao: {
-    backgroundColor: "#FFA500",
-    borderRadius: 30,
-    width: 50,
-    height: 50,
+  card: {
+    borderRadius: 10,
+    height: 150,
+    width: 300,
+    margin: 15,
+    justifyContent: "stretch",
+    alignSelf: "center",
+    alignItems: "center",
+  },
+  nome: { color: "#E9E9E9", fontSize: 20, fontWeight: "bold", paddingTop: 20 },
+  valor: { color: "#E9E9E9", fontSize: 32 },
+  botaoComIcone: {
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
+    padding: 30,
   },
-  mais: { fontSize: 28, color: "#000" },
 });

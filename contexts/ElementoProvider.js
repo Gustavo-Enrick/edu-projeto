@@ -23,6 +23,7 @@ export const ElementoProvider = ({ children }) => {
     const carregarElemento = async () => {
       try {
         const json = await AsyncStorage.getItem("@elementos");
+
         if (json) {
           setElementosPorCategoria(JSON.parse(json));
         } else {
@@ -90,6 +91,32 @@ export const ElementoProvider = ({ children }) => {
     }));
   };
 
+  // Carrega um elemento por nome dentro de uma categoria
+  const carregarElementoPorId = (nomeCategoria, id) => {
+    const elemento = elementosPorCategoria[nomeCategoria].find(
+      (el) => el.id === id
+    );
+    return elemento || null;
+  };
+
+  // Adicionar elemento para editar por id
+  const editarElementoPorId = (nomeCategoria, id, novosDados) => {
+    setElementosPorCategoria((prev) => ({
+      ...prev,
+      [nomeCategoria]: prev[nomeCategoria].map((el) =>
+        el.id === id ? { ...el, ...novosDados } : el
+      ),
+    }));
+  };
+
+  // Remove um elemento por id
+  const removerElementoDaCategoriaPorId = (nomeCategoria, idElemento) => {
+    setElementosPorCategoria((prev) => ({
+      ...prev,
+      [nomeCategoria]: prev[nomeCategoria].filter((el) => el.id !== idElemento),
+    }));
+  };
+
   return (
     <ElementoContext.Provider
       value={{
@@ -97,6 +124,9 @@ export const ElementoProvider = ({ children }) => {
         adicionarElementoNaCategoria,
         removerElementoDaCategoria,
         carregarElementoPorCategoria,
+        carregarElementoPorId,
+        editarElementoPorId,
+        removerElementoDaCategoriaPorId,
         editarElemento,
         setElementosPorCategoria,
       }}

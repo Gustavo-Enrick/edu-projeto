@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
 import MonetaryText from "../../components/monetaryText/MonetaryText";
-import IconSvg from "../../components/iconSvg/IconSvg";
+import IconFontAwesome6 from "../../components/iconSvg/IconFontAwesome6";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
 
-  const categoriasAtivas = categorias.filter((categoria) => categoria.ativo);
+  const categoriasAtivas = categorias.filter(
+    (categoria) => categoria.ativo && categoria.valorTotal > 0
+  );
 
   const receita = () => {
     let categoria = categorias.find(
-      (categoria) => categoria.categoria === "Receita"
+      (categoria) => categoria.categoria === "Receita" && categoria.ativo
     );
     return categoria ? categoria.valorTotal : 0;
   };
@@ -59,7 +61,7 @@ export default function HomeScreen() {
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-up" color="#3BA844" size={35} />
+            <IconFontAwesome6 name="circle-arrow-up" color="#3BA844" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
@@ -69,7 +71,7 @@ export default function HomeScreen() {
           <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-down" color="#D6291B" size={35} />
+            <IconFontAwesome6 name="circle-arrow-down" color="#D6291B" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>

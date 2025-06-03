@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import IconSvg from "../iconSvg/IconSvg";
+import IconFontAwesome6 from "../iconSvg/IconFontAwesome6";
 
 export default function BotaoVoltar() {
   const navigation = useNavigation();
@@ -11,7 +11,7 @@ export default function BotaoVoltar() {
         style={styles.botaoVoltar}
         onPress={() => navigation.goBack()}
       >
-        <IconSvg name="arrow-left-long" size={30} color="#E9E9E9" />
+        <IconFontAwesome6 name="arrow-left-long" size={30} color="#E9E9E9" />
       </TouchableOpacity>
     </View>
   );
@@ -19,7 +19,7 @@ export default function BotaoVoltar() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 20,
   },
   botaoVoltar: {
     width: 30,

@@ -1,88 +1,151 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ElementoContext } from "../../contexts/ElementoProvider";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
+import InputTextCustom from "../../components/input/InputTextCustom";
+import InputNumberCustom from "../../components/input/InputNumberCustom";
+import InputMoneyCustom from "../../components/input/InputMoneyCustom";
+import BotaoAcao from "../../components/botao/BotaoAcao";
 
-export default function EditarItem() {
+export default function EditarItemScreen() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { nomeCategoria, nomeElemento } = route.params;
-  const { editarElemento, carregarElementoPorCategoria } =
+  const { nomeCategoria, id } = route.params;
+  const { editarElementoPorId, carregarElementoPorId } =
     useContext(ElementoContext);
+
   const [titulo, setTitulo] = useState("");
   const [valor, setValor] = useState("");
-  const [data, setData] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [dia, setDia] = useState("");
+
+  const [erroTitulo, setErroTitulo] = useState("");
+  const [erroValor, setErroValor] = useState("");
+  const [erroDia, setErroDia] = useState("");
 
   useEffect(() => {
     const carregarDados = () => {
-      const dados = carregarElementoPorCategoria(nomeCategoria, nomeElemento);
+      const dados = carregarElementoPorId(nomeCategoria, id);
       if (dados) {
-        setTitulo(dados.nome);
+        setTitulo(dados.titulo);
+        setDescricao(dados.descricao);
         setValor(dados.valor);
-        setData(dados.dataExpiracao);
+        setDia(dados.dia);
       }
     };
     carregarDados();
-  }, [nomeCategoria, nomeElemento]);
+  }, [nomeCategoria, id]);
 
   const handleEditar = () => {
-    editarElemento(nomeCategoria, nomeElemento, {
-      nome: titulo,
+    let temErro = false;
+
+    if (!titulo.trim()) {
+      setErroTitulo("Exigido.");
+      temErro = true;
+    } else {
+      setErroTitulo("");
+    }
+
+    if (valor == 0 || !valor.toString().trim()) {
+      setErroValor("Exigido.");
+      temErro = true;
+    } else {
+      setErroValor("");
+    }
+
+    if (dia == 0 || !dia.toString().trim()) {
+      setErroDia("Exigido.");
+      temErro = true;
+    } else {
+      setErroDia("");
+    }
+
+    if (temErro) return;
+
+    editarElementoPorId(nomeCategoria, id, {
+      titulo,
+      descricao,
       valor: parseFloat(valor),
-      dataExpiracao: data,
+      dia: parseInt(dia),
     });
+
+    setTitulo("");
+    setDescricao("");
+    setValor("");
+    setDia("");
+
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Editar{" "}
-          {nomeCategoria === "Investimento" || nomeCategoria === "Receita"
-            ? "Receita"
-            : "Despesa"}
+          Editar {nomeCategoria === "Receita" ? "Receita" : "Despesa"}
         </Text>
-        <Text style={styles.subtitulo}>Categoria: {nomeCategoria}</Text>
 
-        <Text style={styles.textoBranco}>Título</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setTitulo}
-          value={titulo}
-          placeholder="Título"
-        />
-        <Text style={styles.textoBranco}>Valor</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setValor}
-          value={valor}
-          placeholder="Valor"
-          keyboardType="numeric"
-        />
-        <Text style={styles.textoBranco}>Validade</Text>
+        <BotaoVoltar />
+
+        <Text style={styles.subtitulo}>{nomeCategoria}</Text>
+
+        <View style={styles.column}>
+          <InputTextCustom
+            label="Título"
+            onChangeText={(text) => {
+              setTitulo(text);
+              if (text.trim()) setErroTitulo("");
+            }}
+            value={titulo}
+            placeholder="Título..."
+            maxLength={30}
+            required={true}
+            errorMessage={erroTitulo}
+          />
+
+          <InputTextCustom
+            label="Descrição"
+            onChangeText={setDescricao}
+            value={descricao}
+            placeholder="Descrição..."
+            maxLength={50}
+          />
+        </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Data:</Text>
-          <TextInput
-            style={[styles.input, styles.inputFlex]}
-            onChangeText={setData}
-            value={data}
-            placeholder="Data de Vencimento"
+          <InputMoneyCustom
+            label="Valor"
+            onChangeText={(text) => {
+              setValor(text);
+              if (text.trim()) setErroValor("");
+            }}
+            value={valor}
+            placeholder="R$ 0,00"
+            maxLength={15}
+            width={200}
+            required={true}
+            errorMessage={erroValor}
+          />
+
+          <InputNumberCustom
+            label="Dia"
+            onChangeText={(text) => {
+              setDia(text);
+              if (text.trim()) setErroDia("");
+            }}
+            value={dia}
+            placeholder="00"
+            maxLength={2}
+            width={50}
+            required={true}
+            errorMessage={erroDia}
           />
         </View>
 
-        <TouchableOpacity style={styles.botao} onPress={handleEditar}>
-          <Text style={styles.texto}>Editar</Text>
-        </TouchableOpacity>
-        <BotaoVoltar />
+        <BotaoAcao
+          label="Editar"
+          style={styles.botaoEditar}
+          onPress={handleEditar}
+        />
       </ScrollView>
     </View>
   );
@@ -90,68 +153,42 @@ export default function EditarItem() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
     backgroundColor: "#2A2929",
   },
   titulo: {
-    fontSize: 26,
+    fontSize: 32,
     color: "#3C3C3C",
-    marginBottom: 8,
     fontFamily: "AlbertSans-Bold",
-    fontWeight: "bold",
     backgroundColor: "#FFB056",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    paddingTop: 30,
+    paddingTop: 70,
     paddingBottom: 30,
     textAlign: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   subtitulo: {
-    fontSize: 18,
-    color: "#FFF",
-    marginBottom: 20,
+    fontSize: 32,
+    fontFamily: "AlbertSans-Bold",
     textAlign: "center",
+    color: "#E9E9E9",
+    marginBottom: 30,
   },
-  textoBranco: {
-    color: "#FFF",
-    fontSize: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 15,
-    color: "#FFF",
-    backgroundColor: "#3C3C3C",
+  column: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    justifyContent: "space-evenly",
   },
-  label: {
-    fontSize: 16,
-    marginRight: 10,
-    width: 50,
-    color: "#FFF",
-  },
-  inputFlex: {
-    flex: 1,
-    marginBottom: 0,
-  },
-  botao: {
-    backgroundColor: "#FFFF00",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    marginTop: 15,
-  },
-  texto: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
+  botaoEditar: {
+    alignSelf: "center",
+    backgroundColor: "#1B56D6",
+    color: "#E9E9E9",
   },
 });

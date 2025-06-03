@@ -28,22 +28,19 @@ export default function ListaCategoriaScreen() {
   const despesaOuReceita =
     nomeCategoria === "Receita" ? "Receitas" : "Despesas";
 
-  // const descricao = categoria?.descricao || "Sem descrição disponível.";
+  const [itens, setItens] = useState([]);
 
-  const [despesas, setDespesas] = useState([]);
-
-  //código que traz as despesas da categoria
+  //Traz as itens da categoria
   useEffect(() => {
     if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {
-      setDespesas(elementosPorCategoria[nomeCategoria]);
+      setItens(elementosPorCategoria[nomeCategoria]);
     }
   }, [nomeCategoria, elementosPorCategoria]);
 
-  const { removerElementoDaCategoria } = useContext(ElementoContext);
+  const { removerElementoDaCategoriaPorId } = useContext(ElementoContext);
 
   return (
     <View style={styles.container}>
-      {/* <BotaoHelp descricao={descricao} /> */}
       <Text style={[styles.titulo, { backgroundColor: categoria.cor }]}>
         {nomeCategoria}
       </Text>
@@ -58,9 +55,10 @@ export default function ListaCategoriaScreen() {
       />
 
       <Text style={styles.itensTitulo}>{despesaOuReceita}</Text>
-      {despesas.length > 0 ? (
+
+      {itens.length > 0 ? (
         <FlatList
-          data={despesas}
+          data={itens}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={styles.itensConteiner}>
@@ -70,7 +68,7 @@ export default function ListaCategoriaScreen() {
                   { backgroundColor: categoria.cor },
                 ]}
               >
-                {item.dataExpiracao}
+                {item.dia}
               </Text>
 
               <TouchableOpacity
@@ -78,17 +76,22 @@ export default function ListaCategoriaScreen() {
                 onPress={() =>
                   navigation.navigate("EditarItem", {
                     nomeCategoria: nomeCategoria,
-                    nomeElemento: item.nome,
+                    id: item.id,
                   })
                 }
               >
-                <Text style={styles.itemNome}>{item.nome}</Text>
-                <MonetaryText style={styles.itemValor} value={item.valor} />
+                <View style={styles.itemTextoArea}>
+                  <View style={styles.itemHeader}>
+                    <Text style={styles.itemNome}>{item.titulo}</Text>
+                    <MonetaryText style={styles.itemValor} value={item.valor} />
+                  </View>
+                  <Text style={styles.itemDescricao}>{item.descricao}</Text>
+                </View>
               </TouchableOpacity>
 
               <BotaoComIcone
                 onPress={() =>
-                  removerElementoDaCategoria(nomeCategoria, item.nome)
+                  removerElementoDaCategoriaPorId(nomeCategoria, item.id)
                 }
                 color="red"
                 size={30}
@@ -100,7 +103,7 @@ export default function ListaCategoriaScreen() {
         />
       ) : (
         <Text style={styles.semItens}>
-          Ainda não há {despesaOuReceita} associadas a essa categoria.
+          Ainda não há {despesaOuReceita} associadas a esta categoria.
         </Text>
       )}
 
@@ -123,14 +126,12 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 32,
-    color: "#3C3C3C",
-    marginBottom: 8,
+    color: "#E9E9E9",
     fontFamily: "AlbertSans-Bold",
-    fontWeight: "bold",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingTop: 70,
+    paddingBottom: 30,
     textAlign: "center",
   },
   subTitulo: {
@@ -163,13 +164,24 @@ const styles = StyleSheet.create({
   },
   itemConteiner: {
     flex: 1,
-    height: 60,
     borderRadius: 8,
     flexDirection: "row",
     alignContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     backgroundColor: "#3c3c3c",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+  },
+  itemTextoArea: {
+    flex: 1,
+  },
+  itemHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 15,
   },
   dataFormatoRedondo: {
     fontSize: 14,
@@ -183,24 +195,31 @@ const styles = StyleSheet.create({
     fontFamily: "AlbertSans-Bold",
   },
   itemNome: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#E9E9E9",
     fontFamily: "AlbertSans-Bold",
-    marginLeft: 15,
+    flexShrink: 1,
+    flexWrap: "wrap",
+    maxWidth: "50%",
+  },
+  itemDescricao: {
+    fontSize: 16,
+    color: "#C0C0C0",
+    fontFamily: "AlbertSans-Regular",
+    marginHorizontal: 15,
+    paddingTop: 5,
   },
   itemValor: {
-    fontSize: 15,
+    fontSize: 20,
     color: "#E9E9E9",
     fontFamily: "AlbertSans-Bold",
-    marginRight: 15,
   },
   semItens: {
     fontSize: 15,
     textAlign: "center",
     color: "#E9E9E9",
-    fontFamily: "AlbertSans-Bold",
-    marginTop: 30,
+    fontFamily: "AlbertSans-Italic",
   },
   botaoComIcone: {
     alignSelf: "center",

@@ -1,10 +1,10 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
-import IconSvg from "../iconSvg/IconSvg";
+import IconFontAwesome6 from "../iconSvg/IconFontAwesome6";
 
 export default function BotaoComIcone({ onPress, color, style, size, icon = "circle-plus" }) {
   return (
     <TouchableOpacity style={[styles.botaoComIcone, style]} onPress={onPress}>
-        <IconSvg name={icon} size={size} color={color}  />
+        <IconFontAwesome6 name={icon} size={size} color={color}  />
     </TouchableOpacity>
   );
 }

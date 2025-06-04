@@ -1,10 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import styles from '../../../css/styles';
 
 export default function AssinaturaScreen() {
   return (
     <ScrollView>
-      <View>
+      <View style={{ padding: 20 }}>
         <Text style={styles.tituloText}>
             📺 Assinatura
         </Text>
@@ -40,30 +41,3 @@ export default function AssinaturaScreen() {
     
   );
 }
-
-
-const styles = StyleSheet.create({
-  tituloText: {
-    fontFamily: "AlbertSans-Regular",
-    fontSize: 40,
-    paddingTop: 5,
-    textAlign: 'center',
-    marginBottom: 10
-  },
-
-    subtituloText: {
-    fontFamily: "AlbertSans-Regular",
-    fontSize: 20,
-    paddingTop: 5,
-    paddingLeft: 5,
-    marginBottom: 10
-  },
-
-    textoText: {
-    fontFamily: "AlbertSans-Regular",
-    fontSize: 16,
-    paddingTop: 5,
-    paddingLeft: 5,
-    marginBottom: 10
-  },
-});

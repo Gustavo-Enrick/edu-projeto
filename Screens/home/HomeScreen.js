@@ -1,18 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import PieChart from "react-native-pie-chart";
 import MonetaryText from "../../components/monetaryText/MonetaryText";
-import IconSvg from "../../components/iconSvg/IconSvg";
+import IconFontAwesome6 from "../../components/iconSvg/IconFontAwesome6";
 
 export default function HomeScreen() {
   const { categorias } = useContext(CategoriaContext);
 
-  const categoriasAtivas = categorias.filter((categoria) => categoria.ativo);
+  const categoriasAtivas = categorias.filter(
+    (categoria) => categoria.ativo && categoria.valorTotal > 0
+  );
 
   const receita = () => {
     let categoria = categorias.find(
-      (categoria) => categoria.categoria === "Receita"
+      (categoria) => categoria.categoria === "Receita" && categoria.ativo
     );
     return categoria ? categoria.valorTotal : 0;
   };
@@ -42,7 +44,7 @@ export default function HomeScreen() {
 
   const series = addSeries(categoriasAtivas);
 
-  if (categoriasAtivas.length === 0) return null;
+  useEffect(() => {}, []);
 
   return (
     <ScrollView
@@ -59,7 +61,7 @@ export default function HomeScreen() {
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-up" color="#3BA844" size={35} />
+            <IconFontAwesome6 name="circle-arrow-up" color="#3BA844" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
@@ -69,7 +71,7 @@ export default function HomeScreen() {
           <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconSvg name="circle-arrow-down" color="#D6291B" size={35} />
+            <IconFontAwesome6 name="circle-arrow-down" color="#D6291B" size={35} />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
@@ -79,35 +81,37 @@ export default function HomeScreen() {
       </View>
 
       <Text style={styles.tituloSecao}>Valor por Categoria</Text>
-      <View style={styles.graficoContainer}>
-        {series.length > 0 ? (
+      {series.length > 0 ? (
+        <View style={styles.graficoContainer}>
           <PieChart widthAndHeight={120} cover={0.55} series={series} />
-        ) : (
-          <Text style={{ color: "#3C3C3C", marginLeft: 12 }}>
+          <View style={styles.legenda}>
+            {categoriasAtivas.map((item) => (
+              <View style={styles.itemLegenda} key={item.categoria}>
+                <View style={styles.colunaCor}>
+                  <View
+                    style={[styles.corLegenda, { backgroundColor: item.cor }]}
+                  />
+                </View>
+                <View style={styles.colunaCategoria}>
+                  <Text style={styles.textoCategoria}>{item.categoria}</Text>
+                </View>
+                <View style={styles.colunaValor}>
+                  <MonetaryText
+                    style={styles.textoValor}
+                    value={item.valorTotal}
+                  />
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      ) : (
+        <View style={styles.graficoContainer}>
+          <Text style={[styles.textoLabelResumo, { alignItems: "center" }]}>
             Sem dados para exibir.
           </Text>
-        )}
-        <View style={styles.legenda}>
-          {categoriasAtivas.map((item) => (
-            <View style={styles.itemLegenda} key={item.categoria}>
-              <View style={styles.colunaCor}>
-                <View
-                  style={[styles.corLegenda, { backgroundColor: item.cor }]}
-                />
-              </View>
-              <View style={styles.colunaCategoria}>
-                <Text style={styles.textoCategoria}>{item.categoria}</Text>
-              </View>
-              <View style={styles.colunaValor}>
-                <MonetaryText
-                  style={styles.textoValor}
-                  value={item.valorTotal}
-                />
-              </View>
-            </View>
-          ))}
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 }
@@ -145,6 +149,7 @@ const styles = StyleSheet.create({
   },
   iconResumo: {
     paddingRight: 5,
+    justifyContent: "center",
   },
   spaceResumo: {
     marginHorizontal: 10,

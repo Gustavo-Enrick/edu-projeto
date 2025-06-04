@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,69 +9,106 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { CategoriaContext } from "../../contexts/CategoriaContext";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
-import BotaoSalvar from "../../components/botao/BotaoSalvar";
+import BotaoAcao from "../../components/botao/BotaoAcao";
+import IconFontAwesome from "../../components/iconSvg/IconFontAwesome";
 
 export default function SelecaoCategoriasScreen() {
   const navigation = useNavigation();
   const { categorias, atualizarCategoria } = useContext(CategoriaContext);
+  const [selecoes, setSelecoes] = useState([]);
+
+  useEffect(() => {
+    setSelecoes(categorias);
+  }, [categorias]);
 
   const alternarAtivo = (nome) => {
-    const categoria = categorias.find((c) => c.categoria === nome);
-    atualizarCategoria(nome, { ativo: !categoria.ativo });
+    setSelecoes((prev) =>
+      prev.map((cat) =>
+        cat.categoria === nome ? { ...cat, ativo: !cat.ativo } : cat
+      )
+    );
   };
 
   const handleSalvar = () => {
+    selecoes.forEach((cat) => {
+      atualizarCategoria(cat.categoria, { ativo: cat.ativo });
+    });
+
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>Seleção de Categorias</Text>
+
+        <BotaoVoltar />
+
         <View style={styles.lista}>
-          {categorias
-            .filter((cat) => cat.categoria !== "Receita")
-            .map((cat) => (
-              <TouchableOpacity
-                key={cat.categoria}
-                style={styles.item}
-                onPress={() => alternarAtivo(cat.categoria)}
-              >
-                <View
-                  style={[styles.checkbox, cat.ativo && styles.checkboxMarcado]}
+          {selecoes.map((cat) => (
+            <TouchableOpacity
+              key={cat.categoria}
+              style={styles.item}
+              onPress={() => alternarAtivo(cat.categoria)}
+            >
+              {cat.ativo ? (
+                <IconFontAwesome
+                  name="check-square"
+                  color="#FC9E07"
+                  size={40}
                 />
-                <Text style={styles.nome}>{cat.categoria}</Text>
-              </TouchableOpacity>
-            ))}
+              ) : (
+                <IconFontAwesome name="square-o" color="#FC9E07" size={40} />
+              )}
+
+              <Text style={styles.nome}>{cat.categoria}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
-        <BotaoSalvar onPress={handleSalvar}></BotaoSalvar>
-        <BotaoVoltar></BotaoVoltar>
+
+        <BotaoAcao
+          label="Salvar"
+          style={styles.botaoSalvar}
+          onPress={handleSalvar}
+        />
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#222" },
+  container: {
+    flex: 1,
+    backgroundColor: "#2A2929",
+  },
   titulo: {
-    backgroundColor: "#FFB14D",
+    fontSize: 32,
+    color: "#3C3C3C",
+    fontFamily: "AlbertSans-Bold",
+    backgroundColor: "#FFB056",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingTop: 70,
+    paddingBottom: 30,
     textAlign: "center",
-    fontSize: 22,
-    padding: 12,
-    fontWeight: "bold",
   },
-  scroll: { padding: 16, gap: 16 },
-  lista: { padding: 20 },
-  item: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
-  checkbox: {
-    width: 22,
-    height: 22,
-    borderWidth: 2,
-    borderColor: "#FFA500",
-    marginRight: 12,
+  lista: {
+    paddingHorizontal: 40,
   },
-  checkboxMarcado: {
-    backgroundColor: "#FFA500",
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
   },
-  nome: { color: "#fff", fontSize: 18 },
+  nome: {
+    fontFamily: "AlbertSans-Regular",
+    color: "#E9E9E9",
+    fontSize: 24,
+    marginHorizontal: 20,
+  },
+  botaoSalvar: {
+    alignSelf: "center",
+    backgroundColor: "#2E7D32",
+    color: "#E9E9E9",
+  },
 });

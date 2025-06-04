@@ -31,7 +31,6 @@ export default function EditarItemScreen() {
         setTitulo(dados.titulo);
         setDescricao(dados.descricao);
         setValor(dados.valor);
-        // setDia(dados.dia);
         setDia(String(dados.dia ?? ""));
       }
     };
@@ -48,18 +47,23 @@ export default function EditarItemScreen() {
       setErroTitulo("");
     }
 
-    if (valor == 0 || !valor.toString().trim()) {
+    if (isNaN(parseFloat(valor)) || parseFloat(valor) <= 0) {
       setErroValor("Exigido.");
       temErro = true;
     } else {
       setErroValor("");
     }
 
-    if (dia == 0 || !dia.toString().trim()) {
+    if (isNaN(parseInt(dia))) {
       setErroDia("Exigido.");
       temErro = true;
     } else {
-      setErroDia("");
+      if (parseInt(dia) > 31) {
+        setErroDia("1 - 31");
+        temErro = true;
+      } else {
+        setErroDia("");
+      }
     }
 
     if (temErro) return;

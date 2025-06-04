@@ -34,25 +34,23 @@ export default function AdicionarItemScreen() {
       setErroTitulo("");
     }
 
-    if (!valor.trim()) {
+    if (isNaN(parseFloat(valor)) || parseFloat(valor) <= 0) {
       setErroValor("Exigido.");
       temErro = true;
     } else {
       setErroValor("");
     }
 
-    if (!dia.trim()) {
-      temErro = true;
+    if (isNaN(parseInt(dia))) {
       setErroDia("Exigido.");
-    } else {
-      setErroValor("");
-    }
-
-    if (parseInt(dia) > 31) {
-      setErroDia("1 - 31");
       temErro = true;
     } else {
-      setErroValor("");
+      if (parseInt(dia) > 31) {
+        setErroDia("1 - 31");
+        temErro = true;
+      } else {
+        setErroDia("");
+      }
     }
 
     if (temErro) return;

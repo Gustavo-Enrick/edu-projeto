@@ -13,9 +13,26 @@ import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
 import EditarItem from "./Screens/categoria/EditarItemScreen";
 import GuiasScreen from "./Screens/guia/GuiaScreen";
+import ErrorBoundary from './Screens/ErrorBoundary';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+// Captura de erros JS
+ErrorUtils.setGlobalHandler((error, isFatal) => {
+  console.log('Erro global:', error);
+  // Aqui você pode enviar o erro para um serviço externo como Sentry, ou navegar para uma tela de erro
+  navigationRef.navigate('ErrorScreen', { mensagem: error.message });
+});
+
+// Captura de Promises rejeitadas sem catch
+if (typeof globalThis.__rejectionHandler !== 'function') {
+  globalThis.__rejectionHandler = (e) => {
+    console.warn('Promise não tratada:', e?.reason || e);
+  };
+  window.addEventListener?.('unhandledrejection', globalThis.__rejectionHandler);
+}
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -150,24 +167,26 @@ export default function App() {
   return (
     <ElementoProvider>
       <CategoriaProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-            detachInactiveScreens={true}
-          >
-            <Stack.Screen name="MainTabs" component={Tabs} />
-            <Stack.Screen
-              name="SelecaoCategorias"
-              component={SelecaoCategoriasScreen}
-            />
-            <Stack.Screen
-              name="ListaCategorias"
-              component={ListaCategoriaScreen}
-            />
-            <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
-            <Stack.Screen name="EditarItem" component={EditarItem} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <ErrorBoundary>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{ headerShown: false }}
+              detachInactiveScreens={true}
+            >
+              <Stack.Screen name="MainTabs" component={Tabs} />
+              <Stack.Screen
+                name="SelecaoCategorias"
+                component={SelecaoCategoriasScreen}
+              />
+              <Stack.Screen
+                name="ListaCategorias"
+                component={ListaCategoriaScreen}
+              />
+              <Stack.Screen name="AdicionarItem" component={AdicionarItem} />
+              <Stack.Screen name="EditarItem" component={EditarItem} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ErrorBoundary>
       </CategoriaProvider>
     </ElementoProvider>
   );

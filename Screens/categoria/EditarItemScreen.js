@@ -31,7 +31,8 @@ export default function EditarItemScreen() {
         setTitulo(dados.titulo);
         setDescricao(dados.descricao);
         setValor(dados.valor);
-        setDia(dados.dia);
+        // setDia(dados.dia);
+        setDia(String(dados.dia ?? ""));
       }
     };
     carregarDados();

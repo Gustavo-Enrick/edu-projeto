@@ -35,7 +35,7 @@ export default function App() {
         tabBarStyle: {
           backgroundColor: "#242424",
           borderTopWidth: 0,
-          height: 70
+          height: 100,
         },
         tabBarLabel: () => null,
       }}
@@ -71,7 +71,10 @@ export default function App() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabBarItem}>
-              <IconFontAwesome6 name="list" color={focused ? "#FC9E07" : "#6e6e6e"} />
+              <IconFontAwesome6
+                name="list"
+                color={focused ? "#FC9E07" : "#6e6e6e"}
+              />
               <Text
                 style={[
                   styles.tabBarLabel,
@@ -91,9 +94,8 @@ export default function App() {
                   fontFamily: "AlbertSans-Regular",
                   fontSize: 12,
                   paddingTop: 5,
-                  textAlign: 'center'
+                  textAlign: "center",
                 },
-                styles.tabBarIcon,
               ]}
             >
               Categorias
@@ -108,8 +110,19 @@ export default function App() {
         component={GuiasScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={styles.tabBarIcon}>
-              <IconSvg name="book" color={focused ? "#FFB056" : "#6e6e6e"} />
+            <View style={styles.tabBarItem}>
+              <IconFontAwesome6
+                name="book"
+                color={focused ? "#FC9E07" : "#6e6e6e"}
+              />
+              <Text
+                style={[
+                  styles.tabBarLabel,
+                  { color: focused ? "#FC9E07" : "#6e6e6e" },
+                ]}
+              >
+                Guias
+              </Text>
             </View>
           ),
           tabBarLabel: ({ focused }) => (
@@ -121,19 +134,16 @@ export default function App() {
                   fontFamily: "AlbertSans-Regular",
                   fontSize: 12,
                   paddingTop: 5,
-                  textAlign: 'center',
+                  textAlign: "center",
                 },
-                styles.tabBarIcon,
               ]}
             >
-              Guias
+              Categorias
             </Text>
           ),
+          tabBarLabel: () => null,
         }}
       />
-
-
-      
     </Tab.Navigator>
   );
 
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 70,
     height: 35,
-    marginTop: 50,
+    marginTop: 40,
     height: 100,
   },
   tabBarLabel: {

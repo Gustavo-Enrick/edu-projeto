@@ -11,6 +11,7 @@ import { CategoriaContext } from "../../contexts/CategoriaContext";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
 import BotaoAcao from "../../components/botao/BotaoAcao";
 import IconFontAwesome from "../../components/iconSvg/IconFontAwesome";
+import IconFontAwesome6 from "../../components/iconSvg/IconFontAwesome6";
 
 export default function SelecaoCategoriasScreen() {
   const navigation = useNavigation();
@@ -55,23 +56,23 @@ export default function SelecaoCategoriasScreen() {
                 <IconFontAwesome
                   name="check-square"
                   color="#FC9E07"
-                  size={40}
+                  size={31}
                 />
               ) : (
-                <IconFontAwesome name="square-o" color="#FC9E07" size={40} />
+                <IconFontAwesome6 name="square" color="#FC9E07" size={30} />
               )}
 
               <Text style={styles.nome}>{cat.categoria}</Text>
             </TouchableOpacity>
           ))}
         </View>
-
-        <BotaoAcao
-          label="Salvar"
-          style={styles.botaoSalvar}
-          onPress={handleSalvar}
-        />
+      <BotaoAcao
+        label="Salvar"
+        style={styles.botaoSalvar}
+        onPress={handleSalvar}
+      />
       </ScrollView>
+
     </View>
   );
 }
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
   },
   lista: {
     paddingHorizontal: 40,
+    marginTop: 20,
   },
   item: {
     flexDirection: "row",
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   nome: {
     fontFamily: "AlbertSans-Regular",
     color: "#E9E9E9",
-    fontSize: 24,
+    fontSize: 20,
     marginHorizontal: 20,
   },
   botaoSalvar: {

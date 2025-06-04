@@ -16,8 +16,8 @@ export default function EditarItemScreen() {
     useContext(ElementoContext);
 
   const [titulo, setTitulo] = useState("");
-  const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [valor, setValor] = useState("");
   const [dia, setDia] = useState("");
 
   const [erroTitulo, setErroTitulo] = useState("");
@@ -71,8 +71,8 @@ export default function EditarItemScreen() {
     });
 
     setTitulo("");
-    setDescricao("");
     setValor("");
+    setDescricao("");
     setDia("");
 
     navigation.goBack();

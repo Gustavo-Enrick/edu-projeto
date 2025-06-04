@@ -184,9 +184,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   dataFormatoRedondo: {
-    fontSize: 14,
+    fontSize: 17,
     borderRadius: 50,
-    padding: 16,
+    padding: 15,
     width: 50,
     height: 50,
     textAlign: "center",
@@ -223,6 +223,6 @@ const styles = StyleSheet.create({
   },
   botaoComIcone: {
     alignSelf: "center",
-    padding: 30,
+    padding: 50,
   },
 });

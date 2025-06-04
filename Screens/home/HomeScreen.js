@@ -61,7 +61,11 @@ export default function HomeScreen() {
 
         <View style={styles.resumoContainer}>
           <View style={styles.iconResumo}>
-            <IconFontAwesome6 name="circle-arrow-up" color="#3BA844" size={35} />
+            <IconFontAwesome6
+              name="circle-arrow-up"
+              color="#3BA844"
+              size={35}
+            />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Receitas</Text>
@@ -71,7 +75,11 @@ export default function HomeScreen() {
           <View style={styles.spaceResumo} />
 
           <View style={styles.iconResumo}>
-            <IconFontAwesome6 name="circle-arrow-down" color="#D6291B" size={35} />
+            <IconFontAwesome6
+              name="circle-arrow-down"
+              color="#D6291B"
+              size={35}
+            />
           </View>
           <View style={styles.cardResumo}>
             <Text style={styles.textoLabelResumo}>Despesas</Text>
@@ -107,9 +115,7 @@ export default function HomeScreen() {
         </View>
       ) : (
         <View style={styles.graficoContainer}>
-          <Text style={[styles.textoLabelResumo, { alignItems: "center" }]}>
-            Sem dados para exibir.
-          </Text>
+          <Text style={styles.textoSemDados}>Sem dados para exibir.</Text>
         </View>
       )}
     </ScrollView>
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFB056",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    paddingTop: 50,
+    paddingTop: 70,
     paddingBottom: 50,
     alignItems: "center",
   },
@@ -169,6 +175,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "AlbertSans-Bold",
     marginTop: 4,
+  },
+  textoSemDados: {
+    flex: 1,
+    marginTop: 4,
+    fontSize: 15,
+    textAlign: "center",
+    color: "#3C3C3C",
+    fontFamily: "AlbertSans-Bold",
   },
   tituloSecao: {
     fontSize: 20,

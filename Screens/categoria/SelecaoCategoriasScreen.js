@@ -40,7 +40,7 @@ export default function SelecaoCategoriasScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.titulo}>Seleção de Categorias</Text>
 
         <BotaoVoltar />

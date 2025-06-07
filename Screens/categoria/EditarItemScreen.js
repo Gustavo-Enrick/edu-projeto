@@ -1,5 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ElementoContext } from "../../contexts/ElementoProvider";
 import BotaoVoltar from "../../components/botao/BotaoVoltar";
@@ -84,75 +91,88 @@ export default function EditarItemScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 150 : 0}
+    >
+      <View style={styles.container}>
         <Text style={styles.titulo}>
-          Editar {nomeCategoria === "Receita" ? "Receita" : "Despesa"}
+          Adicionar {nomeCategoria === "Receita" ? "Receita" : "Despesa"}
         </Text>
 
         <BotaoVoltar />
 
         <Text style={styles.subtitulo}>{nomeCategoria}</Text>
 
-        <View style={styles.column}>
-          <InputTextCustom
-            label="Título"
-            onChangeText={(text) => {
-              setTitulo(text);
-              if (text.trim()) setErroTitulo("");
-            }}
-            value={titulo}
-            placeholder="Título..."
-            maxLength={30}
-            required={true}
-            errorMessage={erroTitulo}
-          />
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 150,
+            backgroundColor: "#3A3A3A",
+            borderRadius: 20,
+          }}
+        >
+          <View style={styles.column}>
+            <InputTextCustom
+              label="Título"
+              onChangeText={(text) => {
+                setTitulo(text);
+                if (text.trim()) setErroTitulo("");
+              }}
+              value={titulo}
+              placeholder="Título..."
+              maxLength={30}
+              required={true}
+              errorMessage={erroTitulo}
+            />
 
-          <InputTextCustom
-            label="Descrição"
-            onChangeText={setDescricao}
-            value={descricao}
-            placeholder="Descrição..."
-            maxLength={50}
-          />
-        </View>
-        <View style={styles.row}>
-          <InputMoneyCustom
-            label="Valor"
-            onChangeText={(text) => {
-              setValor(text);
-              if (text.trim()) setErroValor("");
-            }}
-            value={valor}
-            placeholder="R$ 0,00"
-            maxLength={15}
-            width={200}
-            required={true}
-            errorMessage={erroValor}
-          />
+            <InputTextCustom
+              label="Descrição"
+              onChangeText={setDescricao}
+              value={descricao}
+              placeholder="Descrição..."
+              maxLength={50}
+            />
+          </View>
 
-          <InputNumberCustom
-            label="Dia"
-            onChangeText={(text) => {
-              setDia(text);
-              if (text.trim()) setErroDia("");
-            }}
-            value={dia}
-            placeholder="00"
-            maxLength={2}
-            width={50}
-            required={true}
-            errorMessage={erroDia}
-          />
-        </View>
+          <View style={styles.row}>
+            <InputMoneyCustom
+              label="Valor"
+              onChangeText={(text) => {
+                setValor(text);
+                if (text.trim()) setErroValor("");
+              }}
+              value={valor}
+              placeholder="R$ 0,00"
+              maxLength={15}
+              width={200}
+              required={true}
+              errorMessage={erroValor}
+            />
 
-        <BotaoAcao
-          label="Editar"
-          style={styles.botaoEditar}
-          onPress={handleEditar}
-        />
-      </ScrollView>
-    </View>
+            <InputNumberCustom
+              label="Dia"
+              onChangeText={(text) => {
+                setDia(text);
+                if (text.trim()) setErroDia("");
+              }}
+              value={dia}
+              placeholder="00"
+              maxLength={2}
+              width={50}
+              required={true}
+              errorMessage={erroDia}
+            />
+          </View>
+          <BotaoAcao
+            label="Editar"
+            style={styles.botaoEditar}
+            onPress={handleEditar}
+          />
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -179,12 +199,13 @@ const styles = StyleSheet.create({
     fontFamily: "AlbertSans-Bold",
     textAlign: "center",
     color: "#E9E9E9",
-    marginBottom: 30,
+    marginBottom: 15,
   },
   column: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
+    marginTop: 20,
   },
   row: {
     flexDirection: "row",

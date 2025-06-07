@@ -20,27 +20,37 @@ export default function CategoriasScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
-      <ScrollView contentContainerStyle={styles.scroll}>
-        {categoriasAtivas.map((cat) => (
-          <TouchableOpacity
-            key={cat.categoria}
-            onPress={() =>
-              navigation.navigate("ListaCategorias", {
-                nomeCategoria: cat.categoria,
-              })
-            }
-          >
-            <View style={[styles.card, { backgroundColor: cat.cor }]}>
-              <Text style={styles.nome}>{cat.categoria}</Text>
-              <MonetaryText
-                style={styles.valor}
-                value={cat.valorTotal}
-                resize={false}
-              />
-            </View>
-          </TouchableOpacity>
-        ))}
+
+      <ScrollView style={styles.scrollView}>
+        {categoriasAtivas.length > 0 ? (
+          <View>
+            {categoriasAtivas.map((cat) => (
+              <TouchableOpacity
+                key={cat.categoria}
+                onPress={() =>
+                  navigation.navigate("ListaCategorias", {
+                    nomeCategoria: cat.categoria,
+                  })
+                }
+              >
+                <View style={[styles.card, { backgroundColor: cat.cor }]}>
+                  <Text style={styles.nome}>{cat.categoria}</Text>
+                  <MonetaryText
+                    style={styles.valor}
+                    value={cat.valorTotal}
+                    resize={false}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ) : (
+          <Text style={styles.semItens}>
+            Adicione algumas categoria para começar.
+          </Text>
+        )}
       </ScrollView>
+
       <BotaoComIcone
         onPress={() => navigation.navigate("SelecaoCategorias")}
         color="#FFB056"
@@ -56,6 +66,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#2A2929",
   },
+scrollView: {
+  flex: 1,
+  backgroundColor: "#2A2929",
+},
   titulo: {
     fontSize: 32,
     color: "#3C3C3C",
@@ -80,8 +94,24 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
   },
-  nome: { color: "#E9E9E9", fontSize: 20, fontWeight: "bold", paddingTop: 20 },
-  valor: { color: "#E9E9E9", fontSize: 32, paddingTop: 20 },
+  nome: {
+    color: "#E9E9E9",
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingTop: 20,
+  },
+  semItens: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "#E9E9E9",
+    fontFamily: "AlbertSans-Italic",
+    marginVertical: 250,
+  },
+  valor: {
+    color: "#E9E9E9",
+    fontSize: 32,
+    paddingTop: 20,
+  },
   botaoComIcone: {
     alignSelf: "center",
     justifyContent: "center",

@@ -47,78 +47,79 @@ export default function HomeScreen() {
   useEffect(() => {}, []);
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ paddingBottom: 40 }}
-    >
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Balanço Mensal</Text>
-        <MonetaryText
-          style={styles.balancoMensal}
-          resize={false}
-          value={balancoMensal()}
-        />
+    <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Balanço Mensal</Text>
+          <MonetaryText
+            style={styles.balancoMensal}
+            resize={false}
+            value={balancoMensal()}
+          />
 
-        <View style={styles.resumoContainer}>
-          <View style={styles.iconResumo}>
-            <IconFontAwesome6
-              name="circle-arrow-up"
-              color="#3BA844"
-              size={35}
-            />
-          </View>
-          <View style={styles.cardResumo}>
-            <Text style={styles.textoLabelResumo}>Receitas</Text>
-            <MonetaryText style={styles.textoReceita} value={receita()} />
-          </View>
+          <View style={styles.resumoContainer}>
+            <View style={styles.iconResumo}>
+              <IconFontAwesome6
+                name="circle-arrow-up"
+                color="#3BA844"
+                size={35}
+              />
+            </View>
+            <View style={styles.cardResumo}>
+              <Text style={styles.textoLabelResumo}>Receitas</Text>
+              <MonetaryText style={styles.textoReceita} value={receita()} />
+            </View>
 
-          <View style={styles.spaceResumo} />
+            <View style={styles.spaceResumo} />
 
-          <View style={styles.iconResumo}>
-            <IconFontAwesome6
-              name="circle-arrow-down"
-              color="#D6291B"
-              size={35}
-            />
-          </View>
-          <View style={styles.cardResumo}>
-            <Text style={styles.textoLabelResumo}>Despesas</Text>
-            <MonetaryText style={styles.textoDespesa} value={despesa()} />
+            <View style={styles.iconResumo}>
+              <IconFontAwesome6
+                name="circle-arrow-down"
+                color="#D6291B"
+                size={35}
+              />
+            </View>
+            <View style={styles.cardResumo}>
+              <Text style={styles.textoLabelResumo}>Despesas</Text>
+              <MonetaryText style={styles.textoDespesa} value={despesa()} />
+            </View>
           </View>
         </View>
-      </View>
 
-      <Text style={styles.tituloSecao}>Valor por Categoria</Text>
-      {series.length > 0 ? (
-        <View style={styles.graficoContainer}>
-          <PieChart widthAndHeight={120} cover={0.55} series={series} />
-          <View style={styles.legenda}>
-            {categoriasAtivas.map((item) => (
-              <View style={styles.itemLegenda} key={item.categoria}>
-                <View style={styles.colunaCor}>
-                  <View
-                    style={[styles.corLegenda, { backgroundColor: item.cor }]}
-                  />
+        <Text style={styles.tituloSecao}>Valor por Categoria</Text>
+        {series.length > 0 ? (
+          <View style={styles.graficoContainer}>
+            <PieChart widthAndHeight={120} cover={0.55} series={series} />
+            <View style={styles.legenda}>
+              {categoriasAtivas.map((item) => (
+                <View style={styles.itemLegenda} key={item.categoria}>
+                  <View style={styles.colunaCor}>
+                    <View
+                      style={[styles.corLegenda, { backgroundColor: item.cor }]}
+                    />
+                  </View>
+                  <View style={styles.colunaCategoria}>
+                    <Text style={styles.textoCategoria}>{item.categoria}</Text>
+                  </View>
+                  <View style={styles.colunaValor}>
+                    <MonetaryText
+                      style={styles.textoValor}
+                      value={item.valorTotal}
+                    />
+                  </View>
                 </View>
-                <View style={styles.colunaCategoria}>
-                  <Text style={styles.textoCategoria}>{item.categoria}</Text>
-                </View>
-                <View style={styles.colunaValor}>
-                  <MonetaryText
-                    style={styles.textoValor}
-                    value={item.valorTotal}
-                  />
-                </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
-        </View>
-      ) : (
-        <View style={styles.graficoContainer}>
-          <Text style={styles.textoSemDados}>Sem dados para exibir.</Text>
-        </View>
-      )}
-    </ScrollView>
+        ) : (
+          <View style={styles.graficoContainer}>
+            <Text style={styles.textoSemDados}>
+              Adicione valores às categorias para os dados serem exibidos.
+            </Text>
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 }
 

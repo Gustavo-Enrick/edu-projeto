@@ -20,6 +20,7 @@ export default function BotaoVoltar() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    paddingBottom: 0,
   },
   botaoVoltar: {
     width: 30,

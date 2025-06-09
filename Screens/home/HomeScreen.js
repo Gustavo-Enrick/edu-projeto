@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 10,
     paddingHorizontal: 10,
+    flexDirection: "row",
     height: 200,
   },
   listaHojeScroll: {

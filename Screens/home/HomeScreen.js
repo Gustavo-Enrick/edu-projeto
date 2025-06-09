@@ -298,7 +298,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#3C3C3C",
     borderRadius: 16,
     marginHorizontal: 10,
-    paddingVertical: 14,
     paddingHorizontal: 10,
     height: 200,
   },
@@ -306,14 +305,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   grupoCategoria: {
-    marginBottom: 16,
+    marginBottom: 5,
   },
   tituloCategoriaHoje: {
     fontSize: 16,
     fontFamily: "AlbertSans-Bold",
     color: "#E9E9E9",
     marginBottom: 8,
-    marginTop: 10,
+    marginTop: 5,
   },
   itemHoje: {
     paddingVertical: 10,

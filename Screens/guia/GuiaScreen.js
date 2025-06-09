@@ -32,7 +32,7 @@ return (
 >
       <Drawer.Screen name="Assinatura" component={Assinatura} />  
       <Drawer.Screen name="Investimento" component={Investimento} />
-      <Drawer.Screen name="Lazer" component={Lazer} />
+      {/* <Drawer.Screen name="Lazer" component={Lazer} /> */}
       <Drawer.Screen name="Mercado" component={Mercado} />
       <Drawer.Screen name="Saude" component={Saude} />
       <Drawer.Screen name="Transporte" component={Transporte} />

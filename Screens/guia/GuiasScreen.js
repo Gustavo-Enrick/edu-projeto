@@ -9,17 +9,16 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Assinatura from "./categorias/AssinaturaScreen";
 import Investimento from "./categorias/InvestimentoScreen";
-import Mercado from "./categorias/MercadoScreen";
+import Moradia from "./categorias/MoradiaScreen";
 import Saude from "./categorias/SaudeScreen";
 import Transporte from "./categorias/TransporteScreen";
-import Vestuario from "./categorias/VestuarioScreen";
 
 const Drawer = createDrawerNavigator();
 
 const icons = {
   Assinatura: "payment",
   Investimento: "show-chart",
-  Mercado: "shopping-cart",
+  Moradia: "home",
   Saúde: "local-hospital",
   Transporte: "directions-car",
   Vestuário: "checkroom",
@@ -76,10 +75,9 @@ export default function GuiasScreen() {
     >
       <Drawer.Screen name="Assinatura" component={Assinatura} />
       <Drawer.Screen name="Investimento" component={Investimento} />
-      <Drawer.Screen name="Mercado" component={Mercado} />
+      <Drawer.Screen name="Moradia" component={Moradia} />
       <Drawer.Screen name="Saúde" component={Saude} />
       <Drawer.Screen name="Transporte" component={Transporte} />
-      <Drawer.Screen name="Vestuário" component={Vestuario} />
     </Drawer.Navigator>
   );
 }

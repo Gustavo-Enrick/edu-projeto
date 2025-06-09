@@ -98,37 +98,44 @@ export default function HomeScreen() {
         </View>
 
         <Text style={styles.tituloSecao}>Valor por Categoria</Text>
-        {series.length > 0 ? (
-          <View style={styles.graficoContainer}>
-            <PieChart widthAndHeight={110} cover={0.55} series={series} />
-            <View style={styles.legenda}>
-              {categoriasAtivas.map((item) => (
-                <View style={styles.itemLegenda} key={item.categoria}>
-                  <View style={styles.colunaCor}>
-                    <View
-                      style={[styles.corLegenda, { backgroundColor: item.cor }]}
-                    />
+        <View style={styles.listaHojeContainer1}>
+          {series.length > 0 ? (
+            <View style={styles.graficoContainer}>
+              <PieChart widthAndHeight={110} cover={0.55} series={series} />
+              <View style={styles.legenda}>
+                {categoriasAtivas.map((item) => (
+                  <View style={styles.itemLegenda} key={item.categoria}>
+                    <View style={styles.colunaCor}>
+                      <View
+                        style={[
+                          styles.corLegenda,
+                          { backgroundColor: item.cor },
+                        ]}
+                      />
+                    </View>
+                    <View style={styles.colunaCategoria}>
+                      <Text style={styles.textoCategoria}>
+                        {item.categoria}
+                      </Text>
+                    </View>
+                    <View style={styles.colunaValor}>
+                      <MonetaryText
+                        style={styles.textoValor}
+                        value={item.valorTotal}
+                      />
+                    </View>
                   </View>
-                  <View style={styles.colunaCategoria}>
-                    <Text style={styles.textoCategoria}>{item.categoria}</Text>
-                  </View>
-                  <View style={styles.colunaValor}>
-                    <MonetaryText
-                      style={styles.textoValor}
-                      value={item.valorTotal}
-                    />
-                  </View>
-                </View>
-              ))}
+                ))}
+              </View>
             </View>
-          </View>
-        ) : (
-          <View style={styles.conteinerSemDados}>
-            <Text style={styles.textoSemDados}>
-              Adicione valores às categorias para os dados serem exibidos.
-            </Text>
-          </View>
-        )}
+          ) : (
+            <View style={styles.conteinerSemDados}>
+              <Text style={styles.textoSemDados}>
+                Adicione valores às categorias para os dados serem exibidos.
+              </Text>
+            </View>
+          )}
+        </View>
 
         <Text style={styles.tituloSecao}>Para Hoje</Text>
         <View style={styles.listaHojeContainer}>
@@ -231,8 +238,13 @@ const styles = StyleSheet.create({
   conteinerSemDados: {
     flex: 1,
     flexDirection: "row",
-    alignSelf: "center",
-    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#3C3C3C", // para garantir o fundo cinza
+    borderRadius: 16,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    height: 200,
   },
   textoSemDados: {
     flex: 1,
@@ -300,6 +312,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingHorizontal: 10,
     flexDirection: "row",
+    height: 200,
+  },
+  listaHojeContainer1: {
+    backgroundColor: "#3C3C3C",
+    borderRadius: 16,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+
     height: 200,
   },
   listaHojeScroll: {

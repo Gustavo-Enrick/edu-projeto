@@ -86,7 +86,7 @@ export default function ListaCategoriaScreen() {
   const limitesPorCategoria = {
     Assinatura: 5,
     Investimento: 10,
-    Mercado: 20,
+    Moradia: 30,
     Saúde: 5,
     Transporte: 10,
     Vestuário: 5,
@@ -96,13 +96,11 @@ export default function ListaCategoriaScreen() {
     Assinatura:
       "Evite ultrapassar o limite saudável para esse tipo de despesa.",
     Investimento: "Invista de forma consistente.",
-    Mercado:
+    Moradia:
       "Planeje compras e evite desperdícios para manter o orçamento sob controle.",
     Saúde:
       "Avalie sempre a real necessidade e busque prevenção sempre que possível.",
     Transporte: "Avalie o custo-benefício.",
-    Vestuário:
-      "Compre apenas se necessário e aproveite promoções ou períodos sazonais para economizar.",
   };
 
   const categoriaLimite = limitesPorCategoria[nomeCategoria];

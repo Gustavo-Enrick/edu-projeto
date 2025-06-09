@@ -28,7 +28,7 @@ export const CategoriaProvider = ({ children }) => {
       ativo: true,
     },
     {
-      categoria: "Mercado",
+      categoria: "Moradia",
       cor: "#999705", // marrom claro → tom terroso, lembra alimentos/naturais
       valorTotal: 0,
       ativo: true,
@@ -42,12 +42,6 @@ export const CategoriaProvider = ({ children }) => {
     {
       categoria: "Transporte",
       cor: "#5D4037", // marrom escuro → lembra asfalto, estrada, carro
-      valorTotal: 0,
-      ativo: true,
-    },
-    {
-      categoria: "Vestuário",
-      cor: "#37474F", // cinza azulado escuro → elegante, remete à moda
       valorTotal: 0,
       ativo: true,
     },

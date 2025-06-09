@@ -5,14 +5,12 @@ export const ElementoContext = createContext(null);
 
 export const ElementoProvider = ({ children }) => {
   const estruturaPadrao = {
+    Receita: [],
     Assinatura: [],
     Investimento: [],
-    // Lazer: [],
-    Mercado: [],
-    Receita: [],
+    Moradia: [],
     Saúde: [],
     Transporte: [],
-    Vestuário: [],
   };
 
   const [elementosPorCategoria, setElementosPorCategoria] =

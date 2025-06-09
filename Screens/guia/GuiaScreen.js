@@ -17,6 +17,7 @@ return (
     <Drawer.Navigator
   screenOptions={{
     headerShown: true,
+    headerTitle: '',
     drawerStyle: {
       width: 200,
       backgroundColor: '#FFB056'
@@ -34,9 +35,9 @@ return (
       <Drawer.Screen name="Investimento" component={Investimento} />
       {/* <Drawer.Screen name="Lazer" component={Lazer} /> */}
       <Drawer.Screen name="Mercado" component={Mercado} />
-      <Drawer.Screen name="Saude" component={Saude} />
+      <Drawer.Screen name="Saúde" component={Saude} />
       <Drawer.Screen name="Transporte" component={Transporte} />
-      <Drawer.Screen name="Vestuario" component={Vestuario} />
+      <Drawer.Screen name="Vestuário" component={Vestuario} />
 </Drawer.Navigator>
 );
 }

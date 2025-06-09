@@ -28,12 +28,6 @@ export const CategoriaProvider = ({ children }) => {
       ativo: true,
     },
     {
-      categoria: "Lazer",
-      cor: "#8E24AA", // roxo médio → vibrante e jovem, associado a diversão
-      valorTotal: 0,
-      ativo: true,
-    },
-    {
       categoria: "Mercado",
       cor: "#999705", // marrom claro → tom terroso, lembra alimentos/naturais
       valorTotal: 0,

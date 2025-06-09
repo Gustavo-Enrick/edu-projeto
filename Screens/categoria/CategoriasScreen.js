@@ -21,7 +21,7 @@ export default function CategoriasScreen() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.container}>
         {categoriasAtivas.length > 0 ? (
           <View>
             {categoriasAtivas.map((cat) => (
@@ -66,10 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#2A2929",
   },
-scrollView: {
-  flex: 1,
-  backgroundColor: "#2A2929",
-},
   titulo: {
     fontSize: 32,
     color: "#3C3C3C",

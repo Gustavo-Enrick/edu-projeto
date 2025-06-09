@@ -66,7 +66,7 @@ export default function EditarItemScreen() {
       temErro = true;
     } else {
       if (parseInt(dia) > 31) {
-        setErroDia("1 - 31");
+        setErroDia("1 até 31");
         temErro = true;
       } else {
         setErroDia("");

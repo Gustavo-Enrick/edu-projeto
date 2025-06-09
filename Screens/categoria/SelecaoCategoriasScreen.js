@@ -72,7 +72,6 @@ export default function SelecaoCategoriasScreen() {
         onPress={handleSalvar}
       />
       </ScrollView>
-
     </View>
   );
 }

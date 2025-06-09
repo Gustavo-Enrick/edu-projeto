@@ -37,7 +37,10 @@ export default function ListaCategoriaScreen() {
 
   useEffect(() => {
     if (nomeCategoria && elementosPorCategoria[nomeCategoria]) {
-      setItens(elementosPorCategoria[nomeCategoria]);
+      const itensOrdenados = [...elementosPorCategoria[nomeCategoria]].sort(
+        (a, b) => a.dia - b.dia
+      );
+      setItens(itensOrdenados);
     }
   }, [nomeCategoria, elementosPorCategoria]);
 
@@ -109,11 +112,15 @@ export default function ListaCategoriaScreen() {
               {todosSelecionados ? (
                 <IconFontAwesome
                   name="minus-square"
-                  color={categoria.cor }
+                  color={categoria.cor}
                   size={28}
                 />
               ) : (
-                <IconFontAwesome6 name="square" color={categoria.cor } size={28} />
+                <IconFontAwesome6
+                  name="square"
+                  color={categoria.cor}
+                  size={28}
+                />
               )}
             </TouchableOpacity>
 
@@ -221,27 +228,24 @@ const styles = StyleSheet.create({
     fontFamily: "AlbertSans-Regular",
     textAlign: "center",
     color: "#E9E9E9",
-    paddingTop: 10,
+  },
+  itensTituloArea: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    marginBottom: 10,
   },
   itensTitulo: {
     fontSize: 24,
     fontFamily: "AlbertSans-Bold",
     color: "#E9E9E9",
-    padding: 30,
-    paddingLeft: 20,
-  },
-  itensTituloArea: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingBottom: 30,
   },
   acoesSelecaoInline: {
     flexDirection: "row",
-    alignItems: "center",
-    padding: 15,
     backgroundColor: "#3c3c3c",
+    padding: 15,
     borderRadius: 20,
     gap: 35,
   },
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
   dataFormatoRedondo: {
     fontSize: 17,
     borderRadius: 50,
-    padding: 18,
+    padding: 19,
     width: 60,
     height: 60,
     textAlign: "center",
@@ -317,7 +321,8 @@ const styles = StyleSheet.create({
   },
   botaoComIcone: {
     alignSelf: "center",
-    padding: 50,
+    paddingBottom: 50,
+    paddingTop: 20,
   },
   acoesSelecao: {
     flexDirection: "row",

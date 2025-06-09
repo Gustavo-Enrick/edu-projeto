@@ -7,7 +7,7 @@ export const ElementoProvider = ({ children }) => {
   const estruturaPadrao = {
     Assinatura: [],
     Investimento: [],
-    Lazer: [],
+    // Lazer: [],
     Mercado: [],
     Receita: [],
     Saúde: [],

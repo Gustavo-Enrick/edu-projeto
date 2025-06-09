@@ -19,8 +19,15 @@ export default function BotaoVoltar() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    paddingBottom: 0,
+    marginTop: 20,
+    marginLeft: 20,
+    backgroundColor: "#4c4c4c",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    width: 50,
+    height: 50,
   },
   botaoVoltar: {
     width: 30,

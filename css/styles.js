@@ -8,20 +8,20 @@ const styles = StyleSheet.create({
     margin: 20,
     color: '#333',
   },
-  subtituloText: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginHorizontal: 20,
-    marginTop: 15,
-    color: '#555',
-  },
-  textoText: {
-    fontSize: 16,
-    marginHorizontal: 20,
-    marginTop: 10,
-    color: '#666',
-    lineHeight: 24,
-  },
+ subtituloText: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#FFB056', // Mudança: cor mais clara e destacada
+  marginBottom: 10,
+  fontFamily: 'AlbertSans-Bold',
+},
+textoText: {
+  fontSize: 16,
+  color: '#E0E0E0', // Mudança: cor mais clara para melhor legibilidade
+  lineHeight: 24,
+  textAlign: 'justify',
+  fontFamily: 'AlbertSans-Regular',
+},
 });
 
 export default styles;

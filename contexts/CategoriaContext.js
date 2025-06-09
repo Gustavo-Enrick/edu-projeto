@@ -9,6 +9,12 @@ export const CategoriaProvider = ({ children }) => {
   const { elementosPorCategoria } = useContext(ElementoContext);
 
   const categoriasPadrao = [
+     {
+      categoria: "Aluguel",
+      cor: "#FF6F31", // pois transmite dinamismo, acessibilidade e ação,
+      valorTotal: 0,
+      ativo: true,
+    },
     {
       categoria: "Receita",
       cor: "#3BA844", // verde claro → remete a dinheiro e tem ótimo contraste
@@ -51,6 +57,7 @@ export const CategoriaProvider = ({ children }) => {
       valorTotal: 0,
       ativo: true,
     },
+   
   ];
 
   // Carrega do AsyncStorage ao iniciar

@@ -1,41 +1,21 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import styles from '../../../css/styles';
 
+import CategoriaBase from './CategoriaBase';
 export default function InvestimentoScreen() {
+  const dicas = [
+    "Diversifique seus investimentos.",
+    "Estude sobre o mercado antes de aplicar.",
+    "Invista com objetivos claros.",
+    "Revise sua carteira periodicamente."
+  ];
+
   return (
-    <ScrollView>
-      <View style={{ padding: 20 }}>
-        <Text style={styles.tituloText}>
-            📈 Investimento
-        </Text>
-        <Text style={styles.subtituloText}>
-            Descrição da Categoria:
-        </Text>
-        <Text style={styles.textoText}>
-            Envolve aplicações financeiras como poupança, renda fixa, ações, fundos imobiliários, criptomoedas, entre outros.
-        </Text>
-        <Text style={styles.subtituloText}>
-            Informações importantes:
-        </Text>
-        <Text style={styles.textoText}>
-          Investimentos são importantes para construir patrimônio e garantir segurança financeira. É fundamental entender seu perfil de risco.
-        </Text>
-        <Text style={styles.subtituloText}>
-            ✍️ Dicas:
-        </Text>
-        <Text style={styles.textoText}>
-          • Diversifique seus investimentos.
-        </Text>
-        <Text style={styles.textoText}>
-          • Estude sobre o mercado antes de aplicar.
-        </Text>
-        <Text style={styles.textoText}>
-          • Invista com objetivos claros.
-        </Text>
-        <Text style={styles.textoText}>
-          • Revise sua carteira periodicamente.
-        </Text>
-      </View>
-    </ScrollView>
+    <CategoriaBase
+      titulo="Investimento"
+      icone="📈"
+      descricao="Envolve aplicações financeiras como poupança, renda fixa, ações, fundos imobiliários, criptomoedas, entre outros."
+      informacoes="  Investimentos são importantes para construir patrimônio e garantir segurança financeira. É fundamental entender seu perfil de risco."
+      dicas={dicas}
+      corTema="#C62828"
+    />
   );
 }

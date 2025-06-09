@@ -1,41 +1,21 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import styles from '../../../css/styles';
 
+import CategoriaBase from './CategoriaBase';
 export default function VestuarioScreen() {
+  const dicas = [
+    "Compre apenas o que for necessário.",
+    "Avalie qualidade e durabilidade.",
+    "Aproveite liquidações e brechós.",
+    "Organize seu guarda-roupa para evitar compras repetidas."
+  ];
+
   return (
-    <ScrollView>
-      <View style={{ padding: 20 }}>
-        <Text style={styles.tituloText}>
-            👕 Vestuário
-        </Text>
-        <Text style={styles.subtituloText}>
-            Descrição da Categoria:
-        </Text>
-        <Text style={styles.textoText}>
-            Compras de roupas, calçados e acessórios entram nessa categoria, tanto itens essenciais quanto por desejo.
-        </Text>
-        <Text style={styles.subtituloText}>
-            Informações importantes:
-        </Text>
-        <Text style={styles.textoText}>
-          Gastos impulsivos com roupas podem prejudicar o orçamento. Avalie a real necessidade de cada compra.
-        </Text>
-        <Text style={styles.subtituloText}>
-            ✍️ Dicas:
-        </Text>
-        <Text style={styles.textoText}>
-          • Compre apenas o que for necessário.
-        </Text>
-        <Text style={styles.textoText}>
-          • Avalie qualidade e durabilidade.
-        </Text>
-        <Text style={styles.textoText}>
-          • Aproveite liquidações e brechós.
-        </Text>
-        <Text style={styles.textoText}>
-          • Organize seu guarda-roupa para evitar compras repetidas.
-        </Text>
-      </View>
-    </ScrollView>
+    <CategoriaBase
+      titulo="Vestuário"
+      icone="👕"
+      descricao="Compras de roupas, calçados e acessórios entram nessa categoria, tanto itens essenciais quanto por desejo."
+      informacoes="Gastos impulsivos com roupas podem prejudicar o orçamento. Avalie a real necessidade de cada compra."
+      dicas={dicas}
+      corTema="#37474F"
+    />
   );
 }

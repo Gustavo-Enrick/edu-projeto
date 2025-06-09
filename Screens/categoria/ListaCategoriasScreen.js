@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { ElementoContext } from "../../contexts/ElementoProvider";
@@ -22,6 +23,7 @@ export default function ListaCategoriaScreen() {
   const { elementosPorCategoria, removerElementoDaCategoriaPorId } =
     useContext(ElementoContext);
   const { categorias } = useContext(CategoriaContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const categoria = categorias.find(
     (cat) =>
@@ -81,6 +83,56 @@ export default function ListaCategoriaScreen() {
     cancelarSelecao();
   };
 
+  const limitesPorCategoria = {
+    Assinatura: 5,
+    Investimento: 10,
+    Mercado: 20,
+    Saúde: 5,
+    Transporte: 10,
+    Vestuário: 5,
+  };
+
+  const descricoesPorCategoria = {
+    Assinatura:
+      "Evite ultrapassar o limite saudável para esse tipo de despesa.",
+    Investimento: "Invista de forma consistente.",
+    Mercado:
+      "Planeje compras e evite desperdícios para manter o orçamento sob controle.",
+    Saúde:
+      "Avalie sempre a real necessidade e busque prevenção sempre que possível.",
+    Transporte: "Avalie o custo-benefício.",
+    Vestuário:
+      "Compre apenas se necessário e aproveite promoções ou períodos sazonais para economizar.",
+  };
+
+  const categoriaLimite = limitesPorCategoria[nomeCategoria];
+  const descricaoLimite = descricoesPorCategoria[nomeCategoria];
+
+  // Encontra o valor total de receita
+  const receita = categorias.find(
+    (cat) => cat.categoria.trim().toLowerCase() === "receita"
+  );
+
+  const valorRecomendadoCat = receita.valorTotal * (categoriaLimite / 100);
+
+  const totalDespesas = categorias
+    .filter((cat) => cat.categoria.toLowerCase() !== "receita" && cat.ativo)
+    .reduce((soma, cat) => soma + cat.valorTotal, 0);
+
+  const ultrapassouLimite =
+    categoria.categoria.toLowerCase() === "receita"
+      ? receita &&
+        receita.ativo &&
+        receita.valorTotal > 0 &&
+        totalDespesas > receita.valorTotal
+      : receita &&
+        categoriaLimite &&
+        receita.valorTotal > 0 &&
+        receita.ativo &&
+        categoria.valorTotal > valorRecomendadoCat;
+
+  const quantoFalta = totalDespesas - receita.valorTotal;
+
   return (
     <View style={styles.container}>
       <Text style={[styles.titulo, { backgroundColor: categoria.cor }]}>
@@ -89,13 +141,25 @@ export default function ListaCategoriaScreen() {
 
       <BotaoVoltar />
 
-      <Text style={styles.subTitulo}>Valor Mensal</Text>
-      <MonetaryText
-        style={styles.valorMensal}
-        value={categoria.valorTotal}
-        resize={false}
-      />
-
+      <View style={{ alignItems: "center", marginBottom: 10 }}>
+        <Text style={styles.subTitulo}>Valor Mensal</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <MonetaryText
+            style={styles.valorMensal}
+            value={categoria.valorTotal}
+            resize={false}
+          />
+          {ultrapassouLimite && (
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <IconFontAwesome6
+                name="triangle-exclamation"
+                color="#FF5050"
+                size={24}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
       <View style={styles.itensTituloArea}>
         <Text style={styles.itensTitulo}>{despesaOuReceita}</Text>
 
@@ -198,6 +262,140 @@ export default function ListaCategoriaScreen() {
         size={50}
         style={styles.botaoComIcone}
       />
+
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.7)",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#3c3c3c",
+              borderRadius: 10,
+              width: "80%",
+              overflow: "hidden",
+            }}
+          >
+            {/* Faixa superior com o título */}
+            <View
+              style={{
+                backgroundColor: categoria.cor,
+                paddingVertical: 12,
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontSize: 22,
+                  fontFamily: "AlbertSans-Bold",
+                }}
+              >
+                ATENÇÃO!
+              </Text>
+            </View>
+
+            {/* Corpo do modal */}
+            <View style={{ padding: 20 }}>
+              {/* Título descritivo */}
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 18,
+                  fontFamily: "AlbertSans-Bold",
+                  // textAlign: "center",
+                  marginBottom: 10,
+                }}
+              >
+                {categoria.categoria === "Receita"
+                  ? "Valor recomendado"
+                  : `Limite recomendado: ${categoriaLimite}%`}
+              </Text>
+
+              {/* Valor recomendado */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 16,
+                    fontFamily: "AlbertSans-Regular",
+                    marginRight: 10,
+                  }}
+                >
+                  Valor:
+                </Text>
+                <View
+                  style={{
+                    backgroundColor: "#505050",
+                    borderRadius: 8,
+                    paddingVertical: 8,
+                    paddingHorizontal: 15,
+                  }}
+                >
+                  <MonetaryText
+                    digits={valorRecomendadoCat < 0.01 ? 4 : 2}
+                    style={{
+                      color: "#fff",
+                      fontSize: 20,
+                      fontFamily: "AlbertSans-Bold",
+                    }}
+                    value={
+                      categoria.categoria === "Receita"
+                        ? quantoFalta
+                        : valorRecomendadoCat
+                    }
+                  />
+                </View>
+              </View>
+
+              {/* Descrição explicativa */}
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 16,
+                  fontFamily: "AlbertSans-Regular",
+                  marginBottom: 20,
+                }}
+              >
+                {categoria.categoria === "Receita"
+                  ? "Seus gastos estão superando sua receita. Reveja suas despesas para manter o equilíbrio financeiro."
+                  : descricaoLimite}
+              </Text>
+
+              {/* Botão de fechar */}
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={{
+                  backgroundColor: categoria.cor,
+                  paddingVertical: 10,
+                  borderRadius: 8,
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                  Fechar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

@@ -12,7 +12,7 @@ import { ElementoProvider } from "./contexts/ElementoProvider";
 import ListaCategoriaScreen from "./Screens/categoria/ListaCategoriasScreen";
 import AdicionarItem from "./Screens/categoria/AdicionarItemScreen";
 import EditarItem from "./Screens/categoria/EditarItemScreen";
-import GuiasScreen from "./Screens/guia/GuiaScreen";
+import GuiasScreen from "./Screens/guia/GuiasScreen";
 import ErrorBoundary from "./Screens/ErrorBoundary";
 
 const Tab = createBottomTabNavigator();

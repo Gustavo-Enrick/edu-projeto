@@ -84,6 +84,7 @@ export default function ListaCategoriaScreen() {
   };
 
   const limitesPorCategoria = {
+    Aluguel: 30,
     Assinatura: 5,
     Investimento: 10,
     Mercado: 20,
@@ -93,6 +94,8 @@ export default function ListaCategoriaScreen() {
   };
 
   const descricoesPorCategoria = {
+    Aluguel:
+    "Mantenha o aluguel dentro de 30% da sua receita mensal.",
     Assinatura:
       "Evite ultrapassar o limite saudável para esse tipo de despesa.",
     Investimento: "Invista de forma consistente.",

@@ -10,7 +10,7 @@ export default function AluguelScreen() {
 
   return (
     <CategoriaBase
-      titulo="Aluguel"
+      titulo="Moradia"
       icone="🏠"
       descricao="O aluguel é o valor pago mensalmente para morar em um imóvel que não é de sua propriedade. Pode incluir despesas como condomínio, IPTU e taxas de serviços."
       informacoes="O aluguel é uma das maiores despesas mensais para muitas pessoas. É importante planejar bem esse gasto, considerando não apenas o valor do aluguel, mas também as despesas adicionais que podem surgir."

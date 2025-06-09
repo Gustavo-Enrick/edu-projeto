@@ -9,15 +9,16 @@ export const CategoriaProvider = ({ children }) => {
   const { elementosPorCategoria } = useContext(ElementoContext);
 
   const categoriasPadrao = [
-     {
-      categoria: "Aluguel",
-      cor: "#FF6F31", // pois transmite dinamismo, acessibilidade e ação,
-      valorTotal: 0,
-      ativo: true,
-    },
+ 
     {
       categoria: "Receita",
       cor: "#3BA844", // verde claro → remete a dinheiro e tem ótimo contraste
+      valorTotal: 0,
+      ativo: true,
+    },
+      {
+      categoria: "Moradia",
+      cor: "#FF6F31", // pois transmite dinamismo, acessibilidade e ação,
       valorTotal: 0,
       ativo: true,
     },
